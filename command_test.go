@@ -63,6 +63,7 @@ func TestCommnad(t *testing.T) {
 				sut := NewSubCommandWithParam(cmd, subcmd, param)
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, subcmd)
+				Expect(sut.param).To(Equal, param)
 			})
 		})
 	})
