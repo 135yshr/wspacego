@@ -10,4 +10,3 @@ script:
 
 install:
   - go get github.com/r7kamura/gospel
-  - go get github.com/135yshr/wspacego
