@@ -13,3 +13,7 @@ func NewCommand(cmd string) *Command {
 func NewSubCommand(cmd, subcmd string) *Command {
 	return &Command{cmd: cmd, subcmd: subcmd}
 }
+
+func NewCommandWithParam(cmd string, param int) *Command {
+	return &Command{cmd: cmd, param: param}
+}
