@@ -3,7 +3,7 @@ package wspacego
 type Stack []int
 
 func NewStack() *Stack {
-	return nil
+	return new(Stack)
 }
 
 func (s *Stack) Pop() int {
