@@ -50,5 +50,13 @@ func TestCommnad(t *testing.T) {
 				Expect(sut.param).To(Equal, 1)
 			})
 		})
+		Context("パラメータ付きのサブコマンドを作成する", func() {
+			It("インスタンスが作成できること", func() {
+				cmd, subcmd := "cmd", "subcmd"
+				param := 1
+				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				Expect(sut).To(Exist)
+			})
+		})
 	})
 }
