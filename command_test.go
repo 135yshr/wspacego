@@ -57,6 +57,12 @@ func TestCommnad(t *testing.T) {
 				sut := NewSubCommandWithParam(cmd, subcmd, param)
 				Expect(sut).To(Exist)
 			})
+			It("指定した値でメンバー変数が書き換えられていること", func() {
+				cmd, subcmd := "cmd", "subcmd"
+				param := 1
+				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				Expect(sut.cmd).To(Equal, cmd)
+			})
 		})
 	})
 }
