@@ -83,3 +83,14 @@ func TestCommnad(t *testing.T) {
 		})
 	})
 }
+
+func TestCommandList(t *testing.T) {
+	Describe(t, "CommandList Tests", func() {
+		Context("実行するコマンドの一覧を作成する", func() {
+			It("インスタンスが作成できること", func() {
+				sut := NewCommandList()
+				Expect(sut).To(Exist)
+			})
+		})
+	})
+}

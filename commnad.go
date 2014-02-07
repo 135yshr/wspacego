@@ -8,6 +8,9 @@ type Command struct {
 	param  int
 }
 
+type CommandList struct {
+}
+
 func (c *Command) String() string {
 	return fmt.Sprintf("%s %s %d", c.cmd, c.subcmd, c.param)
 }
@@ -26,4 +29,8 @@ func NewCommandWithParam(cmd string, param int) *Command {
 
 func NewSubCommandWithParam(cmd, subcmd string, param int) *Command {
 	return &Command{cmd, subcmd, param}
+}
+
+func NewCommandList() *CommandList {
+	return &CommandList{}
 }
