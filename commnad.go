@@ -7,7 +7,7 @@ type Command struct {
 }
 
 func NewCommand(cmd string) *Command {
-	return nil
+	return &Command{cmd: cmd}
 }
 
 func NewSubCommand(cmd, subcmd string) *Command {
