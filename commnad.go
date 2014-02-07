@@ -6,6 +6,10 @@ type Command struct {
 	param  int
 }
 
-func NewCommand(cmd, subcmd string) *Command {
+func NewCommand(cmd string) *Command {
+	return nil
+}
+
+func NewSubCommand(cmd, subcmd string) *Command {
 	return &Command{cmd: cmd, subcmd: subcmd}
 }
