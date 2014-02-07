@@ -1,9 +1,15 @@
 package wspacego
 
+import ()
+
 type Command struct {
 	cmd    string
 	subcmd string
 	param  int
+}
+
+func (c *Command) String() string {
+	return "cmd subcmd 1"
 }
 
 func NewCommand(cmd string) *Command {

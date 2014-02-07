@@ -1,6 +1,7 @@
 package wspacego
 
 import (
+	"fmt"
 	. "github.com/r7kamura/gospel"
 	"testing"
 )
@@ -64,6 +65,14 @@ func TestCommnad(t *testing.T) {
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, subcmd)
 				Expect(sut.param).To(Equal, param)
+			})
+		})
+		Context("文字列に変換する", func() {
+			It("指定したフォーマットになっている", func() {
+				cmd, subcmd := "cmd", "subcmd"
+				param := 1
+				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				Expect(fmt.Sprint(sut)).To(Equal, "cmd subcmd 1")
 			})
 		})
 	})
