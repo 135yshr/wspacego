@@ -5,6 +5,16 @@ import (
 	"testing"
 )
 
+func TestNewHeap(t *testing.T) {
+	Describe(t, "Initialize Heap", func() {
+		Context("new instance", func() {
+			It("not nil", func() {
+				Expect(NewHeap()).To(Exist)
+			})
+		})
+	})
+}
+
 func TestHeap(t *testing.T) {
 	Describe(t, "Heap struct Tests", func() {
 		Context("push k:0 v:0", func() {

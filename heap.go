@@ -9,3 +9,8 @@ func (h Heap) Push(k, v int) {
 func (h Heap) Pop(k int) int {
 	return h[k]
 }
+
+func NewHeap() *Heap {
+	ret := make(Heap)
+	return &ret
+}
