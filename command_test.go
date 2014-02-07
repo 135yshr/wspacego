@@ -14,6 +14,11 @@ func TestCommnad(t *testing.T) {
 				Expect(sut).To(Exist)
 			})
 		})
+		Context("Initial Instance", func() {
+			cmd := "cmd"
+			sut := NewCommand(cmd)
+			Expect(sut.cmd).To(Equal, cmd)
+		})
 		Context("Create Instance", func() {
 			It("is exists", func() {
 				cmd, subcmd := "cmd", "subcmd"
