@@ -9,4 +9,5 @@ script:
  - go test -v ./...
 
 install:
- - go get github.com/135yshr/wspacego
+  - go get github.com/r7kamura/gospel
+  - go get github.com/135yshr/wspacego
