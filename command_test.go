@@ -34,16 +34,14 @@ func TestCommnad(t *testing.T) {
 				Expect(sut.param).To(Equal, 0)
 			})
 		})
-		Context("Create Instance", func() {
-			It("is exists", func() {
+		Context("パラメータ付きのコマンドを作成する", func() {
+			It("インスタンスが作成できること", func() {
 				cmd := "cmd"
 				param := 1
 				sut := NewCommandWithParam(cmd, param)
 				Expect(sut).To(Exist)
 			})
-		})
-		Context("Create Instance", func() {
-			It("Initialize Instance", func() {
+			It("コマンドとパラメータが指定した値で書き換えられていること", func() {
 				cmd := "cmd"
 				param := 1
 				sut := NewCommandWithParam(cmd, param)
