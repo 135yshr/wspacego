@@ -19,5 +19,5 @@ func NewCommandWithParam(cmd string, param int) *Command {
 }
 
 func NewSubCommandWithParam(cmd, subcmd string, param int) *Command {
-	return &Command{cmd: cmd}
+	return &Command{cmd: cmd, subcmd: subcmd}
 }
