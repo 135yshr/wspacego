@@ -7,6 +7,11 @@ import (
 
 func TestPush(t *testing.T) {
 	Describe(t, "Stack Push/Pop", func() {
+		Context("Create Instance", func() {
+			It("not nil", func() {
+				Expect(NewStack()).To(Exist)
+			})
+		})
 		Context("push 1", func() {
 			sut := new(Stack)
 			sut.Push(1)

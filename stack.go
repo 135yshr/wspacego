@@ -2,6 +2,10 @@ package wspacego
 
 type Stack []int
 
+func NewStack() *Stack {
+	return nil
+}
+
 func (s *Stack) Pop() int {
 	tmp := *s
 	n := len(tmp) - 1
