@@ -7,3 +7,6 @@ go:
 
 script:
  - go test -v ./...
+
+install:
+ - go get github.com/135yshr/wspacego.git
