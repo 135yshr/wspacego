@@ -74,6 +74,12 @@ func TestCommnad(t *testing.T) {
 				sut := NewSubCommandWithParam(cmd, subcmd, param)
 				Expect(fmt.Sprint(sut)).To(Equal, "cmd subcmd 1")
 			})
+			It("パラメータに２を渡したとき指定したフォーマットになっている", func() {
+				cmd, subcmd := "cmd", "subcmd"
+				param := 2
+				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				Expect(fmt.Sprint(sut)).To(Equal, "cmd subcmd 2")
+			})
 		})
 	})
 }

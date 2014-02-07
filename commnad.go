@@ -1,6 +1,6 @@
 package wspacego
 
-import ()
+import "fmt"
 
 type Command struct {
 	cmd    string
@@ -9,7 +9,7 @@ type Command struct {
 }
 
 func (c *Command) String() string {
-	return "cmd subcmd 1"
+	return fmt.Sprintf("%s %s %d", c.cmd, c.subcmd, c.param)
 }
 
 func NewCommand(cmd string) *Command {
