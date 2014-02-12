@@ -103,7 +103,7 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("goto", "1001"))
 			})
 			It("スタックの値が０のときにラベルを呼び出すコマンドが作成されること", func() {
-				data = []byte{'G', 'o', 't', 'o', '\n', '\t', ' ', '\t', ' ', ' ', '\t', '\n'}
+				data = []byte{'=', '=', '0', 'G', 'o', 't', 'o', '\n', '\t', ' ', '\t', ' ', ' ', '\t', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
 				sut.parseCommands()
@@ -112,7 +112,7 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("if stack==0 then goto", "1001"))
 			})
 			It("スタックの値が０未満のときにラベルを呼び出すコマンドが作成されること", func() {
-				data = []byte{'G', 'o', 't', 'o', '\n', '\t', '\t', '\t', ' ', ' ', '\t', '\n'}
+				data = []byte{'<', '0', 'G', 'o', 't', 'o', '\n', '\t', '\t', '\t', ' ', ' ', '\t', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
 				sut.parseCommands()
@@ -121,13 +121,22 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("if stack<0 then goto", "1001"))
 			})
 			It("呼び出し元に戻るコマンドが作成されること", func() {
-				data = []byte{'G', 'o', 't', 'o', '\n', '\t', '\n'}
+				data = []byte{'R', 'e', 't', 'u', 'r', 'n', '\n', '\t', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
 				sut.parseCommands()
 				Expect(sut.commands).To(Exist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewCommand("return"))
+			})
+			It("プログラムを終了するコマンドが作成されること", func() {
+				data = []byte{'E', 'x', 'i', 't', '\n', '\n', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("exit"))
 			})
 			It("プログラムを終了するコマンドが作成されること", func() {
 				data = []byte{'G', 'o', 't', 'o', '\n', '\n', '\n'}
