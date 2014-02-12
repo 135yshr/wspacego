@@ -49,6 +49,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "copy", 0))
 			})
+			It("スタックを入れ替えるするコマンドが作成されること", func() {
+				data = []byte{'S', 'w', 'a', 'p', ' ', '\n', '\t'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "swap", 0))
+			})
 		})
 	})
 }
