@@ -132,6 +132,10 @@ func TestCommandList(t *testing.T) {
 				Expect(actual).To(Exist)
 				Expect(actual.cmd).To(Equal, "test2")
 			})
+			It("指定した3行目のコマンドが存在しないときにnilが返ってくること", func() {
+				actual := sut.Get(3)
+				Expect(actual).To(NotExist)
+			})
 		})
 	})
 }
