@@ -2,6 +2,7 @@ package wspacego
 
 import (
 	"bytes"
+	"fmt"
 )
 
 const (
@@ -30,33 +31,43 @@ func (inter *Interpreter) filter() {
 	*inter = inp
 }
 
-func (inter *Interpreter) parseCommands() {
+func (inter *Interpreter) parseCommands() error {
 	inp := *inter
 	data := inp.source
 	inp.commands = NewCommandList()
 	for pos := 0; pos < len(data); pos++ {
-		var seek int
-		var command *Command
 
-		switch data[pos] {
-		case Space:
-			command, seek = stackManipulation(data[pos+1:])
-		case Lf:
-		case Tab:
-		default:
-			continue
+		fn, err := generateImpfunc(data[pos])
+		pos += 1
+		command, seek, err := fn(data[pos:])
+		if err != nil {
+			return err
 		}
-		pos += (seek + 1)
+		pos += seek
 		inp.commands.Add(command)
 	}
 	*inter = inp
+	return nil
 }
 
-func stackManipulation(data []byte) (*Command, int) {
+func generateImpfunc(b byte) (func([]byte) (*Command, int, error), error) {
+	switch b {
+	case Space:
+		return stackManipulation, nil
+	case Lf:
+		return flowControl, nil
+	case Tab:
+		return nil, fmt.Errorf("not defined")
+	default:
+		return nil, fmt.Errorf("not defined")
+	}
+}
+
+func stackManipulation(data []byte) (*Command, int, error) {
 	if data[0] == Space {
 		buf, seek := readEndLf(data[1:])
 		num := parseInt(buf)
-		return NewSubCommandWithParam("stack", "push", num), seek
+		return NewSubCommandWithParam("stack", "push", num), seek, nil
 	}
 
 	var word, subcmd string
@@ -72,9 +83,38 @@ func stackManipulation(data []byte) (*Command, int) {
 		word = "stack"
 		subcmd = "remove"
 	default:
-		return NewCommand("mani.undefined"), 0
+		return nil, 0, fmt.Errorf("not defined command [%s]", "mani")
 	}
-	return NewSubCommand(word, subcmd), len(cmd) - 1
+	return NewSubCommand(word, subcmd), len(cmd) - 1, nil
+}
+
+func flowControl(data []byte) (*Command, int, error) {
+	cmd := data[0:2]
+
+	var word string
+	switch {
+	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
+		word = "label"
+	case bytes.Compare(cmd, []byte{Space, Tab}) == 0:
+		word = "call"
+	case bytes.Compare(cmd, []byte{Space, Lf}) == 0:
+		word = "goto"
+	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
+		word = "if stack==0 then goto"
+	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
+		word = "if stack<0 then goto"
+	case bytes.Compare(cmd, []byte{Tab, Lf}) == 0:
+		return NewCommand("return"), len(cmd) - 1, nil
+	case bytes.Compare(cmd, []byte{Lf, Lf}) == 0:
+		return NewCommand("exit"), len(cmd) - 1, nil
+	default:
+		return nil, 0, fmt.Errorf("not defined command [%s]", "flow")
+	}
+
+	buf, seek := readEndLf(data[len(cmd):])
+	subcmd := string(parseZeroOne(buf))
+
+	return NewSubCommand(word, subcmd), len(cmd) + seek - 1, nil
 }
 
 func readEndLf(data []byte) ([]byte, int) {
@@ -94,6 +134,21 @@ func parseInt(data []byte) int {
 		ret = ret << 1
 		if b == Tab {
 			ret += 1
+		}
+	}
+	return ret
+}
+
+func parseZeroOne(data []byte) []byte {
+	ret := make([]byte, len(data))
+	for n, b := range data {
+		switch b {
+		case Space:
+			ret[n] = '0'
+		case Tab:
+			ret[n] = '1'
+		default:
+			ret[n] = '-'
 		}
 	}
 	return ret

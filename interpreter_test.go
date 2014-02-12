@@ -71,9 +71,18 @@ func TestInterpretor(t *testing.T) {
 				data = []byte{'u', 'n', 'k', 'n', 'o', 'w', 'n', ' ', '\t', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
+				err := sut.parseCommands()
+				Expect(sut.commands).To(NotExist)
+				Expect(err).To(Exist)
+			})
+			It("ラベルを定義するコマンドが作成されること", func() {
+				data = []byte{'L', 'a', 'b', 'l', '\n', ' ', ' ', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
 				sut.parseCommands()
 				Expect(sut.commands).To(Exist)
-				Expect(sut.commands.Get(1)).To(Equal, NewCommand("mani.undefined"))
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("label", "1001"))
 			})
 		})
 	})
