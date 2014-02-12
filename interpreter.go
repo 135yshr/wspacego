@@ -43,6 +43,7 @@ func (inter *Interpreter) parseCommands() error {
 		if err != nil {
 			return err
 		}
+
 		pos += seek
 		inp.commands.Add(command)
 	}
