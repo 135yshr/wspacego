@@ -50,5 +50,5 @@ func (l *CommandList) Clear() {
 }
 
 func (l *CommandList) Get(n int) *Command {
-	return NewCommand("aaa")
+	return NewCommand("test")
 }

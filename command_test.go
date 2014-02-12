@@ -124,6 +124,7 @@ func TestCommandList(t *testing.T) {
 			It("指定した１行目のコマンドを取得できること", func() {
 				actual := sut.Get(1)
 				Expect(actual).To(Exist)
+				Expect(actual.cmd).To(Equal, "test")
 			})
 		})
 	})
