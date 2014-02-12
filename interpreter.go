@@ -59,9 +59,8 @@ func generateImpfunc(b byte) (func([]byte) (*Command, int, error), error) {
 		return flowControl, nil
 	case Tab:
 		return nil, fmt.Errorf("not defined")
-	default:
-		return nil, fmt.Errorf("not defined")
 	}
+	return nil, fmt.Errorf("not defined")
 }
 
 func stackManipulation(data []byte) (*Command, int, error) {
