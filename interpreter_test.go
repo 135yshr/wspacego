@@ -23,6 +23,12 @@ func TestInterpretor(t *testing.T) {
 				sut.filter()
 				Expect(sut.source).To(Equal, []byte{' ', '\t', '\n'})
 			})
+			It("不要なデータ以外排除されていること（改行を増やす）", func() {
+				data = append(data, '\n')
+				sut := NewInterpreter(data)
+				sut.filter()
+				Expect(sut.source).To(Equal, []byte{' ', '\t', '\n', '\n'})
+			})
 		})
 	})
 }

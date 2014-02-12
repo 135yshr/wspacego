@@ -2,7 +2,6 @@ package wspacego
 
 import (
 	"bytes"
-	"fmt"
 )
 
 const (
