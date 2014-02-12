@@ -182,6 +182,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewCommand("div"))
 			})
+			It("余りを求める命令が作成されること", func() {
+				data = []byte{'m', 'o', 'd', '\t', ' ', '\t', '\t'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("mod"))
+			})
 		})
 	})
 }
