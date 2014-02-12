@@ -1,9 +1,31 @@
 package wspacego
 
+import (
+	"bytes"
+	"fmt"
+)
+
+const (
+	Tab   = '\t'
+	Space = ' '
+	Lf    = '\n'
+)
+
 type Interpreter struct {
-	data []byte
+	origin []byte
+	source []byte
 }
 
 func NewInterpreter(data []byte) *Interpreter {
-	return &Interpreter{data}
+	return &Interpreter{origin: data}
+}
+
+func (inter *Interpreter) filter() {
+	inp := *inter
+	for _, b := range inp.origin {
+		if bytes.IndexByte([]byte{Space, Tab, Lf}, b) >= 0 {
+			inp.source = append(inp.source, b)
+		}
+	}
+	*inter = inp
 }

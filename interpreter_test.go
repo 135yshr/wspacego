@@ -14,7 +14,14 @@ func TestInterpretor(t *testing.T) {
 			It("インスタンスが生成できること", func() {
 				actual := NewInterpreter(data)
 				Expect(actual).To(Exist)
-				Expect(actual.data).To(Equal, data)
+				Expect(actual.origin).To(Equal, data)
+			})
+		})
+		Context("不要な文字を排除する関数", func() {
+			It("不要なデータ以外排除されていること", func() {
+				sut := NewInterpreter(data)
+				sut.filter()
+				Expect(sut.source).To(Equal, []byte{' ', '\t', '\n'})
 			})
 		})
 	})
