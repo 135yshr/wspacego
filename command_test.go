@@ -140,12 +140,6 @@ func TestCommandList(t *testing.T) {
 				actual := sut.Get(0)
 				Expect(actual).To(NotExist)
 			})
-			It("指定した行番号が０未満のときにnilが返ってくること", func() {
-				actual := sut.Get(-1)
-				Expect(actual).To(NotExist)
-				actual = sut.Get(-10)
-				Expect(actual).To(NotExist)
-			})
 		})
 	})
 }
