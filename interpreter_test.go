@@ -47,7 +47,7 @@ func TestInterpretor(t *testing.T) {
 				sut.parseCommands()
 				Expect(sut.commands).To(Exist)
 				Expect(sut.commands.Len()).To(Equal, 1)
-				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "copy", 0))
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("stack", "copy"))
 			})
 			It("スタックを入れ替えるコマンドが作成されること", func() {
 				data = []byte{'S', 'w', 'a', 'p', ' ', '\n', '\t'}
@@ -56,16 +56,24 @@ func TestInterpretor(t *testing.T) {
 				sut.parseCommands()
 				Expect(sut.commands).To(Exist)
 				Expect(sut.commands.Len()).To(Equal, 1)
-				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "swap", 0))
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("stack", "swap"))
 			})
 			It("スタックを削除するコマンドが作成されること", func() {
-				data = []byte{'S', 'w', 'a', 'p', ' ', '\n', '\n'}
+				data = []byte{'R', 'e', 'm', 'o', 'v', 'e', ' ', '\n', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
 				sut.parseCommands()
 				Expect(sut.commands).To(Exist)
 				Expect(sut.commands.Len()).To(Equal, 1)
-				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "remove", 0))
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("stack", "remove"))
+			})
+			It("定義されていない命令が指定されたときにundefinedの命令が作成されること", func() {
+				data = []byte{'u', 'n', 'k', 'n', 'o', 'w', 'n', ' ', '\t', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("mani.undefined"))
 			})
 		})
 	})
