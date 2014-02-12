@@ -155,6 +155,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewCommand("add"))
 			})
+			It("引き算する命令が作成されること", func() {
+				data = []byte{'s', 'u', 'b', '\t', ' ', ' ', '\t'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("sub"))
+			})
 		})
 	})
 }
