@@ -120,6 +120,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("if stack<0 then goto", "1001"))
 			})
+			It("呼び出し元に戻るコマンドが作成されること", func() {
+				data = []byte{'G', 'o', 't', 'o', '\n', '\t', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("return"))
+			})
 		})
 	})
 }
