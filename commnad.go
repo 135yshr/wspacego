@@ -8,8 +8,7 @@ type Command struct {
 	param  int
 }
 
-type CommandList struct {
-}
+type CommandList map[int]*Command
 
 func (c *Command) String() string {
 	return fmt.Sprintf("%s %s %d", c.cmd, c.subcmd, c.param)
@@ -33,4 +32,11 @@ func NewSubCommandWithParam(cmd, subcmd string, param int) *Command {
 
 func NewCommandList() *CommandList {
 	return &CommandList{}
+}
+
+func (l *CommandList) Add(c *Command) {
+	cl := *l
+	k := len(cl) + 1
+	cl[k] = c
+	l = &cl
 }

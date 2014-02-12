@@ -92,5 +92,12 @@ func TestCommandList(t *testing.T) {
 				Expect(sut).To(Exist)
 			})
 		})
+		Context("リストにコマンドを追加する関数", func() {
+			It("コマンドが追加できることを確認する", func() {
+				sut := NewCommandList()
+				sut.Add(NewCommand("test"))
+				Expect(len(*sut)).To(Equal, 1)
+			})
+		})
 	})
 }
