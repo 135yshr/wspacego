@@ -9,12 +9,12 @@ import (
 
 func TestInterpretor(t *testing.T) {
 	Describe(t, "インタープリターのテスト", func() {
+		data := []byte{'A', ' ', 'B', '\t', '\r', '\n'}
 		Context("インスタンス生成", func() {
-			test_file := path.Join(current_dir(), "samples/hworld.ws")
 			It("インスタンスが生成できること", func() {
-				actual := NewInterpreter(test_file)
+				actual := NewInterpreter(data)
 				Expect(actual).To(Exist)
-				Expect(actual.path).To(Equal, test_file)
+				Expect(actual.data).To(Equal, data)
 			})
 		})
 	})

@@ -1,9 +1,9 @@
 package wspacego
 
 type Interpreter struct {
-	path string
+	data []byte
 }
 
-func NewInterpreter(path string) *Interpreter {
-	return &Interpreter{path}
+func NewInterpreter(data []byte) *Interpreter {
+	return &Interpreter{data}
 }
