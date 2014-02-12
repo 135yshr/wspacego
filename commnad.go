@@ -48,3 +48,7 @@ func (l *CommandList) Clear() {
 	}
 	l = &cl
 }
+
+func (l *CommandList) Get(n int) *Command {
+	return NewCommand("aaa")
+}
