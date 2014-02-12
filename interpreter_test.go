@@ -31,11 +31,15 @@ func TestInterpretor(t *testing.T) {
 			})
 		})
 		Context("ソースファイルをコマンドリストに変換する関数", func() {
-			sut := NewInterpreter(data)
-			sut.filter()
-			sut.parseCommands()
-			Expect(sut.commands).To(Exist)
-			Expect(sut.commands.Len()).To(Equal, 2)
+			It("指定したコマンドが作成されること", func() {
+				data = []byte{'P', 'u', 's', 'h', ' ', ' ', '\t', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 1))
+			})
 		})
 	})
 }
