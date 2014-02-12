@@ -140,6 +140,12 @@ func TestCommandList(t *testing.T) {
 				actual := sut.Get(0)
 				Expect(actual).To(NotExist)
 			})
+			It("０未満の値を指定したときにnilが返ってくること", func() {
+				actual := sut.Get(-1)
+				Expect(actual).To(NotExist)
+				actual = sut.Get(-2)
+				Expect(actual).To(NotExist)
+			})
 		})
 	})
 }
