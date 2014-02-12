@@ -121,10 +121,16 @@ func TestCommandList(t *testing.T) {
 		Context("コマンドを行番号で取得する関数", func() {
 			sut := NewCommandList()
 			sut.Add(NewCommand("test"))
+			sut.Add(NewCommand("test2"))
 			It("指定した１行目のコマンドを取得できること", func() {
 				actual := sut.Get(1)
 				Expect(actual).To(Exist)
 				Expect(actual.cmd).To(Equal, "test")
+			})
+			It("指定した２行目のコマンドを取得できること", func() {
+				actual := sut.Get(2)
+				Expect(actual).To(Exist)
+				Expect(actual.cmd).To(Equal, "test2")
 			})
 		})
 	})

@@ -50,5 +50,6 @@ func (l *CommandList) Clear() {
 }
 
 func (l *CommandList) Get(n int) *Command {
-	return NewCommand("test")
+	cl := *l
+	return cl[n]
 }
