@@ -129,6 +129,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewCommand("return"))
 			})
+			It("プログラムを終了するコマンドが作成されること", func() {
+				data = []byte{'G', 'o', 't', 'o', '\n', '\n', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("exit"))
+			})
 		})
 	})
 }
