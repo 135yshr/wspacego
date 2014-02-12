@@ -96,26 +96,26 @@ func TestCommandList(t *testing.T) {
 			sut := NewCommandList()
 			It("コマンドが追加できることを確認する", func() {
 				sut.Add(NewCommand("test"))
-				Expect(len(*sut)).To(Equal, 1)
+				Expect(sut.Len()).To(Equal, 1)
 			})
 			It("コマンドが追加できることを確認する（2回目）", func() {
 				sut.Add(NewCommand("test2"))
-				Expect(len(*sut)).To(Equal, 2)
+				Expect(sut.Len()).To(Equal, 2)
 			})
 		})
 		Context("コマンドをすべて削除する関数", func() {
 			sut := NewCommandList()
 			sut.Add(NewCommand("test"))
-			Expect(len(*sut)).To(Equal, 1)
+			Expect(sut.Len()).To(Equal, 1)
 			It("コマンドがすべて削除される", func() {
 				sut.Clear()
-				Expect(len(*sut)).To(Equal, 0)
+				Expect(sut.Len()).To(Equal, 0)
 			})
 			It("コマンドがすべて削除される", func() {
 				sut.Add(NewCommand("test"))
 				sut.Add(NewCommand("test2"))
 				sut.Clear()
-				Expect(len(*sut)).To(Equal, 0)
+				Expect(sut.Len()).To(Equal, 0)
 			})
 		})
 		Context("コマンドを行番号で取得する関数", func() {

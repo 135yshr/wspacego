@@ -30,6 +30,13 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.source).To(Equal, []byte{' ', '\t', '\n', '\n'})
 			})
 		})
+		Context("ソースファイルをコマンドリストに変換する関数", func() {
+			sut := NewInterpreter(data)
+			sut.filter()
+			sut.parseCommands()
+			Expect(sut.commands).To(Exist)
+			Expect(sut.commands.Len()).To(Equal, 2)
+		})
 	})
 }
 

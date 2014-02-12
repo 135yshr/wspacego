@@ -53,3 +53,7 @@ func (l *CommandList) Get(n int) *Command {
 	cl := *l
 	return cl[n]
 }
+
+func (l *CommandList) Len() int {
+	return len(*l)
+}

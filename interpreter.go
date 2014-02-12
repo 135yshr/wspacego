@@ -11,8 +11,9 @@ const (
 )
 
 type Interpreter struct {
-	origin []byte
-	source []byte
+	origin   []byte
+	source   []byte
+	commands *CommandList
 }
 
 func NewInterpreter(data []byte) *Interpreter {
@@ -26,5 +27,13 @@ func (inter *Interpreter) filter() {
 			inp.source = append(inp.source, b)
 		}
 	}
+	*inter = inp
+}
+
+func (inter *Interpreter) parseCommands() {
+	inp := *inter
+	inp.commands = NewCommandList()
+	inp.commands.Add(NewCommand("test"))
+	inp.commands.Add(NewCommand("test2"))
 	*inter = inp
 }
