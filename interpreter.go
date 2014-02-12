@@ -150,9 +150,9 @@ func heapAccess(data []byte) (*Command, int, error) {
 	const cmd = "heap"
 	switch data[0] {
 	case Space:
-		return NewSubCommand(cmd, "push"), 0, nil
+		return NewSubCommand(cmd, "push"), 1, nil
 	case Tab:
-		return NewSubCommand(cmd, "pop"), 0, nil
+		return NewSubCommand(cmd, "pop"), 1, nil
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "heap")
 }
