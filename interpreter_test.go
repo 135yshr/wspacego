@@ -31,7 +31,7 @@ func TestInterpretor(t *testing.T) {
 			})
 		})
 		Context("ソースファイルをコマンドリストに変換する関数", func() {
-			It("指定したコマンドが作成されること", func() {
+			It("スタックに１をプッシュするコマンドが作成されること", func() {
 				data = []byte{'P', 'u', 's', 'h', ' ', ' ', '\t', '\n'}
 				sut := NewInterpreter(data)
 				sut.filter()
