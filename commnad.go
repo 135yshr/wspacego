@@ -40,3 +40,11 @@ func (l *CommandList) Add(c *Command) {
 	cl[k] = c
 	l = &cl
 }
+
+func (l *CommandList) Clear() {
+	cl := *l
+	for k := range cl {
+		delete(cl, k)
+	}
+	l = &cl
+}

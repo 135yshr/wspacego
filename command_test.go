@@ -103,5 +103,20 @@ func TestCommandList(t *testing.T) {
 				Expect(len(*sut)).To(Equal, 2)
 			})
 		})
+		Context("コマンドをすべて削除する関数", func() {
+			sut := NewCommandList()
+			sut.Add(NewCommand("test"))
+			Expect(len(*sut)).To(Equal, 1)
+			It("コマンドがすべて削除される", func() {
+				sut.Clear()
+				Expect(len(*sut)).To(Equal, 0)
+			})
+			It("コマンドがすべて削除される", func() {
+				sut.Add(NewCommand("test"))
+				sut.Add(NewCommand("test2"))
+				sut.Clear()
+				Expect(len(*sut)).To(Equal, 0)
+			})
+		})
 	})
 }
