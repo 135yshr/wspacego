@@ -93,10 +93,14 @@ func TestCommandList(t *testing.T) {
 			})
 		})
 		Context("リストにコマンドを追加する関数", func() {
+			sut := NewCommandList()
 			It("コマンドが追加できることを確認する", func() {
-				sut := NewCommandList()
 				sut.Add(NewCommand("test"))
 				Expect(len(*sut)).To(Equal, 1)
+			})
+			It("コマンドが追加できることを確認する（2回目）", func() {
+				sut.Add(NewCommand("test2"))
+				Expect(len(*sut)).To(Equal, 2)
 			})
 		})
 	})
