@@ -217,6 +217,14 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("heap", "pop"))
 			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data = []byte{'u', 'n', 'k', 'o', 'w', 'n', '\t', '\t', '\n'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				err := sut.parseCommands()
+				Expect(sut.commands).To(NotExist)
+				Expect(err).To(Exist)
+			})
 		})
 	})
 }
