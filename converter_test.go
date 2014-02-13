@@ -49,7 +49,7 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(Exist)
 				Expect(cmd).To(Equal, NewSubCommand("stack", "copy"))
 			})
-			It("スタックをコピーするコマンドが作成されること", func() {
+			It("スタックのトップと２番目を入れ替えるコマンドが作成されること", func() {
 				data := []byte{'\n', '\t'}
 				sut := NewConverter()
 				cmd, seek, err := sut.stackManipulation(data)
