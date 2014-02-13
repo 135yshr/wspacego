@@ -18,8 +18,27 @@ func TestConerter(t *testing.T) {
 				sut := NewConverter()
 				cmd, seek, err := sut.stackManipulation(data)
 				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(seek).To(Equal, 3)
+				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 1))
+			})
+			It("スタックに2をプッシュするコマンドが作成されること", func() {
+				data := []byte{' ', '\t', ' ', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.stackManipulation(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 2))
+			})
+			It("スタックに4をプッシュするコマンドが作成されること", func() {
+				data := []byte{' ', '\t', ' ', ' ', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.stackManipulation(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 4))
 			})
 		})
 	})
