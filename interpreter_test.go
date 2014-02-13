@@ -225,6 +225,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands).To(NotExist)
 				Expect(err).To(Exist)
 			})
+			It("スタックの内容を文字として標準出力する命令が作成されること", func() {
+				data = []byte{'p', 'u', 't', 'c', '\t', '\n', ' ', ' '}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("putc"))
+			})
 		})
 	})
 }
