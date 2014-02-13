@@ -58,6 +58,23 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(Exist)
 				Expect(cmd).To(Equal, NewSubCommand("stack", "swap"))
 			})
+			It("スタックのトップを削除するコマンドが作成されること", func() {
+				data := []byte{'\n', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.stackManipulation(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("stack", "remove"))
+			})
+			It("定義されていない命令が指定されたときにundefinedの命令が作成されること", func() {
+				data := []byte{'\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.stackManipulation(data)
+				Expect(err).To(Exist)
+				Expect(seek).To(Equal, 0)
+				Expect(cmd).To(NotExist)
+			})
 		})
 	})
 }
