@@ -34,5 +34,5 @@ func (c *Converter) stackManipulation(data []byte) (*Command, int, error) {
 	default:
 		return nil, 0, fmt.Errorf("not defined command [%s]", "mani")
 	}
-	return NewSubCommand(word, subcmd), len(cmd) - 1, nil
+	return NewSubCommand(word, subcmd), len(data), nil
 }
