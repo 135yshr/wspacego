@@ -16,8 +16,10 @@ func TestConerter(t *testing.T) {
 			It("スタックに１をプッシュするコマンドが作成されること", func() {
 				data := []byte{' ', '\t', '\n'}
 				sut := NewConverter()
-				_, _, err := sut.stackManipulation(data)
+				cmd, seek, err := sut.stackManipulation(data)
 				Expect(err).To(NotExist)
+				Expect(cmd).To(Exist)
+				Expect(seek).To(Equal, 3)
 			})
 		})
 	})

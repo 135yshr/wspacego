@@ -16,7 +16,7 @@ func (c *Converter) stackManipulation(data []byte) (*Command, int, error) {
 	if data[0] == Space {
 		buf, seek := readEndLf(data[1:])
 		num := parseInt(buf)
-		return NewSubCommandWithParam("stack", "push", num), seek, nil
+		return NewSubCommandWithParam("stack", "push", num), seek + 1, nil
 	}
 
 	var word, subcmd string
