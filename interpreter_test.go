@@ -252,6 +252,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewCommand("getc"))
 			})
+			It("標準入力の値を数値としてスタックに格納する命令が作成されること", func() {
+				data = []byte{'g', 'e', 't', 'n', '\t', '\n', '\t', '\t'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewCommand("getn"))
+			})
 		})
 	})
 }
