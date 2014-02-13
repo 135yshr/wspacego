@@ -199,7 +199,7 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands).To(NotExist)
 				Expect(err).To(Exist)
 			})
-			It("余りを求める命令が作成されること", func() {
+			It("ヒープエリアに値をプッシュする命令が作成されること", func() {
 				data = []byte{'h', 'e', 'a', 'p', '\t', 'p', 'u', 's', 'h', '\t', ' '}
 				sut := NewInterpreter(data)
 				sut.filter()
@@ -207,6 +207,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands).To(Exist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("heap", "push"))
+			})
+			It("ヒープエリアから値をポップする命令が作成されること", func() {
+				data = []byte{'h', 'e', 'a', 'p', '\t', 'p', 'o', 'p', '\t', '\t'}
+				sut := NewInterpreter(data)
+				sut.filter()
+				sut.parseCommands()
+				Expect(sut.commands).To(Exist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommand("heap", "pop"))
 			})
 		})
 	})
