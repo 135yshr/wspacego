@@ -50,6 +50,12 @@ func TestPush(t *testing.T) {
 				Expect(sut.Pop()).To(Equal, 20)
 				Expect(sut.Pop()).To(Equal, 1)
 			})
+			It("格納した値が１つだけのとき内容が変わらないこと", func() {
+				sut := NewStack()
+				sut.Push(1)
+				sut.Swap()
+				Expect(sut.Pop()).To(Equal, 1)
+			})
 		})
 	})
 }
