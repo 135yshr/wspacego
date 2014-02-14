@@ -36,8 +36,7 @@ func (inter *Interpreter) parseCommands() error {
 	inp.commands = NewCommandList()
 	for pos := 0; pos < len(data); pos++ {
 
-		conv := NewConverter()
-		fn, err := conv.CreateFunction(data[pos])
+		fn, err := CreateFunction(data[pos])
 		pos += 1
 		command, seek, err := fn(data[pos:])
 		if err != nil {

@@ -5,26 +5,19 @@ import (
 	"fmt"
 )
 
-type Converter struct {
-}
-
-func NewConverter() *Converter {
-	return &Converter{}
-}
-
-func (c *Converter) CreateFunction(b byte) (func([]byte) (*Command, int, error), error) {
+func CreateFunction(b byte) (func([]byte) (*Command, int, error), error) {
 	switch b {
 	case Space:
-		return c.stackManipulation, nil
+		return stackManipulation, nil
 	case Lf:
-		return c.flowControl, nil
+		return flowControl, nil
 	case Tab:
-		return c.generateFunctions, nil
+		return generateFunctions, nil
 	}
 	return nil, fmt.Errorf("not defined")
 }
 
-func (c *Converter) stackManipulation(data []byte) (*Command, int, error) {
+func stackManipulation(data []byte) (*Command, int, error) {
 	if data[0] == Space {
 		buf, seek := readEndLf(data[1:])
 		num := parseInt(buf)
@@ -49,7 +42,7 @@ func (c *Converter) stackManipulation(data []byte) (*Command, int, error) {
 	return NewSubCommand(word, subcmd), len(data), nil
 }
 
-func (c *Converter) flowControl(data []byte) (*Command, int, error) {
+func flowControl(data []byte) (*Command, int, error) {
 	cmd := data[0:2]
 
 	var word string
@@ -78,19 +71,19 @@ func (c *Converter) flowControl(data []byte) (*Command, int, error) {
 	return NewSubCommand(word, subcmd), len(cmd) + seek, nil
 }
 
-func (c *Converter) generateFunctions(data []byte) (*Command, int, error) {
+func generateFunctions(data []byte) (*Command, int, error) {
 	switch data[0] {
 	case Space:
-		return c.arithmetic(data[1:])
+		return arithmetic(data[1:])
 	case Tab:
-		return c.heapAccess(data[1:])
+		return heapAccess(data[1:])
 	case Lf:
-		return c.i_o(data[1:])
+		return i_o(data[1:])
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "subimp")
 }
 
-func (c *Converter) arithmetic(data []byte) (*Command, int, error) {
+func arithmetic(data []byte) (*Command, int, error) {
 	cmd := data[0:2]
 	switch {
 	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
@@ -107,7 +100,7 @@ func (c *Converter) arithmetic(data []byte) (*Command, int, error) {
 	return nil, 0, fmt.Errorf("not defined command [%s]", "arithmetic")
 }
 
-func (c *Converter) heapAccess(data []byte) (*Command, int, error) {
+func heapAccess(data []byte) (*Command, int, error) {
 	const cmd = "heap"
 	switch data[0] {
 	case Space:
@@ -118,7 +111,7 @@ func (c *Converter) heapAccess(data []byte) (*Command, int, error) {
 	return nil, 0, fmt.Errorf("not defined command [%s]", "heap")
 }
 
-func (c *Converter) i_o(data []byte) (*Command, int, error) {
+func i_o(data []byte) (*Command, int, error) {
 	cmd := data[0:2]
 	switch {
 	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
