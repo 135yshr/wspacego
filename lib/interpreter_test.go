@@ -42,6 +42,14 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x41))
 			})
+			It("不要なデータを排除して指定したコマンドが作成されること", func() {
+				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
+				sut := NewInterpreter(data)
+				err := sut.ToCode()
+				Expect(err).To(NotExist)
+				Expect(sut.commands.Len()).To(Equal, 1)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x43))
+			})
 		})
 		Context("不要な文字を排除する関数", func() {
 			It("不要なデータ以外排除されていること", func() {
