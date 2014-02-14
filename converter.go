@@ -18,8 +18,8 @@ func (c *Converter) CreateFunction(b byte) (func([]byte) (*Command, int, error),
 		return c.stackManipulation, nil
 	case Lf:
 		return c.flowControl, nil
-		// case Tab:
-		// 	return generateSubImpfunc, nil
+	case Tab:
+		return c.generateFunctions, nil
 	}
 	return nil, fmt.Errorf("not defined")
 }
@@ -78,17 +78,17 @@ func (c *Converter) flowControl(data []byte) (*Command, int, error) {
 	return NewSubCommand(word, subcmd), len(cmd) + seek, nil
 }
 
-// func (c *Converter) generateSubImpfunc(data []byte) (*Command, int, error) {
-// 	switch data[0] {
-// 	case Space:
-// 		return arithmetic(data[1:])
-// 	case Tab:
-// 		return heapAccess(data[1:])
-// 	case Lf:
-// 		return i_o(data[1:])
-// 	}
-// 	return nil, 0, fmt.Errorf("not defined command [%s]", "subimp")
-// }
+func (c *Converter) generateFunctions(data []byte) (*Command, int, error) {
+	switch data[0] {
+	case Space:
+		return c.arithmetic(data[1:])
+	case Tab:
+		return c.heapAccess(data[1:])
+	case Lf:
+		return c.i_o(data[1:])
+	}
+	return nil, 0, fmt.Errorf("not defined command [%s]", "subimp")
+}
 
 func (c *Converter) arithmetic(data []byte) (*Command, int, error) {
 	cmd := data[0:2]

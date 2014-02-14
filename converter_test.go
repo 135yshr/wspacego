@@ -13,14 +13,34 @@ func TestConerter(t *testing.T) {
 			})
 		})
 		Context("命令作成関数の生成", func() {
-			It("スタックを操作する命令を作成する関数が作成されること", func() {
+			It("スタックを操作する命令を生成する関数が作成されること", func() {
 				data := byte(' ')
 				sut := NewConverter()
 				fn, err := sut.CreateFunction(data)
 				Expect(err).To(NotExist)
 				Expect(fn).To(Exist)
-				// 目的のメソッドが生成されているか確認する処理を作る必要がある
-				// 下記のコードだと同じということがチェックできない
+				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
+				//      下記のコードだと同じということがチェックできない
+				//Expect(fn).To(Equal, sut.stackManipulation)
+			})
+			It("制御文を作成する関数が生成されること", func() {
+				data := byte('\n')
+				sut := NewConverter()
+				fn, err := sut.CreateFunction(data)
+				Expect(err).To(NotExist)
+				Expect(fn).To(Exist)
+				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
+				//      下記のコードだと同じということがチェックできない
+				//Expect(fn).To(Equal, sut.stackManipulation)
+			})
+			It("演算やヒープ領域の操作と入出力に関する命令を作成する関数が生成されること", func() {
+				data := byte('\t')
+				sut := NewConverter()
+				fn, err := sut.CreateFunction(data)
+				Expect(err).To(NotExist)
+				Expect(fn).To(Exist)
+				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
+				//      下記のコードだと同じということがチェックできない
 				//Expect(fn).To(Equal, sut.stackManipulation)
 			})
 		})
