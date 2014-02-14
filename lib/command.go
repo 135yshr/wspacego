@@ -67,5 +67,5 @@ func (l *CommandList) Search(cmd *Command) (int, error) {
 			return k, nil
 		}
 	}
-	return -1, fmt.Errorf("not found")
+	return -1, fmt.Errorf("not defined")
 }

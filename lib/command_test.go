@@ -162,6 +162,16 @@ func TestCommandList(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(key).To(Equal, 3)
 			})
+			It("コマンドリストから１番目のコマンドのキーを取得できること", func() {
+				key, err := sut.Search(NewCommand("test"))
+				Expect(err).To(NotExist)
+				Expect(key).To(Equal, 1)
+			})
+			It("存在しないコマンドを指定されたときエラーが発生すること", func() {
+				key, err := sut.Search(NewCommand("not defined"))
+				Expect(err).To(Exist)
+				Expect(key).To(Equal, -1)
+			})
 		})
 	})
 }
