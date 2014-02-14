@@ -21,7 +21,19 @@ func NewInterpreter(data []byte) *Interpreter {
 }
 
 func (inter *Interpreter) ToChar() ([]byte, error) {
-	return []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'S', 'T', '\n'}, nil
+	inp := *inter
+	var ret []byte
+	for _, b := range inp.origin {
+		switch b {
+		case Space:
+			ret = append(ret, 'S')
+		case Tab:
+			ret = append(ret, 'T')
+		case Lf:
+			ret = append(ret, Lf)
+		}
+	}
+	return ret, nil
 }
 
 func (inter *Interpreter) filter() {
