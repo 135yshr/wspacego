@@ -39,7 +39,7 @@ func TestInterpretor(t *testing.T) {
 			It("不要なデータを排除して指定したコマンドが作成されること", func() {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				sut := NewInterpreter(data)
-				err := sut.ToCode()
+				err := sut.toCode()
 				Expect(err).To(NotExist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x41))
@@ -47,7 +47,7 @@ func TestInterpretor(t *testing.T) {
 			It("不要なデータを排除して指定したコマンドが作成されること（パート２）", func() {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
 				sut := NewInterpreter(data)
-				err := sut.ToCode()
+				err := sut.toCode()
 				Expect(err).To(NotExist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x43))
