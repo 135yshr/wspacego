@@ -43,13 +43,23 @@ func (inter *Interpreter) ToChar() ([]byte, error) {
 	return ret, nil
 }
 
-func (inter *Interpreter) ToCode() error {
+func (inter *Interpreter) toCode() error {
 	inter.filter()
 	return inter.parseCommands()
 }
 
-func (inter *Interpreter) Run(data []byte) {
-	err := inter.ToCode()
+func (inter *Interpreter) PrintCode() {
+	err := inter.toCode()
+	if err != nil {
+		panic(err)
+	}
+	for _, cmd := range *inter.commands {
+		fmt.Println(cmd)
+	}
+}
+
+func (inter *Interpreter) Run() {
+	err := inter.toCode()
 	if err != nil {
 		panic(err)
 	}
