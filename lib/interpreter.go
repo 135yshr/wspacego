@@ -36,6 +36,12 @@ func (inter *Interpreter) ToChar() ([]byte, error) {
 	return ret, nil
 }
 
+func (inter *Interpreter) ToCode() error {
+	inter.filter()
+	inter.parseCommands()
+	return inter.parseCommands()
+}
+
 func (inter *Interpreter) filter() {
 	inp := *inter
 	for _, b := range inp.origin {
