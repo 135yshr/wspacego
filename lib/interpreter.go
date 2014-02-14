@@ -14,7 +14,7 @@ type Interpreter struct {
 	origin   []byte
 	source   []byte
 	commands *CommandList
-	heapMem  Heap
+	heapMem  *Heap
 	stackMem *Stack
 }
 
