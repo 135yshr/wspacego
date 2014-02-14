@@ -17,3 +17,12 @@ func (s *Stack) Pop() int {
 func (s *Stack) Push(n int) {
 	*s = append(*s, n)
 }
+
+func (s *Stack) Swap() {
+	st := *s
+	size := len(st)
+	if size > 1 {
+		st[size-1], st[size-2] = st[size-2], st[size-1]
+		*s = st
+	}
+}
