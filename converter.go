@@ -125,3 +125,40 @@ func i_o(data []byte) (*Command, int, error) {
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "io")
 }
+
+func readEndLf(data []byte) ([]byte, int) {
+	var ret []byte
+	for _, b := range data {
+		if b == Lf {
+			break
+		}
+		ret = append(ret, b)
+	}
+	return ret, len(ret) + 1
+}
+
+func parseInt(data []byte) int {
+	var ret int
+	for _, b := range data {
+		ret = ret << 1
+		if b == Tab {
+			ret += 1
+		}
+	}
+	return ret
+}
+
+func parseZeroOne(data []byte) []byte {
+	ret := make([]byte, len(data))
+	for n, b := range data {
+		switch b {
+		case Space:
+			ret[n] = '0'
+		case Tab:
+			ret[n] = '1'
+		default:
+			ret[n] = '-'
+		}
+	}
+	return ret
+}
