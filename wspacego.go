@@ -29,8 +29,9 @@ func main() {
 	case "run":
 		interpreter.Run()
 	case "disasm":
-		interpreter.ToCode()
+		interpreter.PrintCode()
 	case "char":
+		interpreter.PrintChar()
 	default:
 		fmt.Fprintf(os.Stderr, "not support subcommand\n")
 		flag.Usage()

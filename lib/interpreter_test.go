@@ -24,7 +24,7 @@ func TestInterpretor(t *testing.T) {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				expected := []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'S', 'T', '\n'}
 				sut := NewInterpreter(data)
-				dat, err := sut.ToChar()
+				dat, err := sut.toChar()
 				Expect(err).To(NotExist)
 				Expect(dat).To(Equal, expected)
 			})
@@ -32,7 +32,7 @@ func TestInterpretor(t *testing.T) {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
 				expected := []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'T', 'T', '\n'}
 				sut := NewInterpreter(data)
-				dat, err := sut.ToChar()
+				dat, err := sut.toChar()
 				Expect(err).To(NotExist)
 				Expect(dat).To(Equal, expected)
 			})

@@ -27,7 +27,7 @@ func NewInterpreter(data []byte) *Interpreter {
 	return &Interpreter{origin: data, heapMem: NewHeap(), stackMem: NewStack()}
 }
 
-func (inter *Interpreter) ToChar() ([]byte, error) {
+func (inter *Interpreter) toChar() ([]byte, error) {
 	inp := *inter
 	var ret []byte
 	for _, b := range inp.origin {
@@ -48,6 +48,13 @@ func (inter *Interpreter) toCode() error {
 	return inter.parseCommands()
 }
 
+func (inter *Interpreter) PrintChar() {
+	bys, err := inter.toChar()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Print(string(bys))
+}
 func (inter *Interpreter) PrintCode() {
 	err := inter.toCode()
 	if err != nil {
