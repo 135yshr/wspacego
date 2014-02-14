@@ -15,8 +15,6 @@ func TestInterpretor(t *testing.T) {
 				actual := NewInterpreter(data)
 				Expect(actual).To(Exist)
 				Expect(actual.origin).To(Equal, data)
-				Expect(actual.heapMem).To(Exist)
-				Expect(actual.stackMem).To(Exist)
 			})
 		})
 		Context("スペースをSにタブをTに置き換える", func() {
