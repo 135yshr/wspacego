@@ -232,5 +232,51 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(NotExist)
 			})
 		})
+		Context("I/O操作に関する命令の作成", func() {
+			It("スタックの内容を文字として標準出力する命令が作成されること", func() {
+				data := []byte{' ', ' '}
+				sut := NewConverter()
+				cmd, seek, err := sut.i_o(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("putc"))
+			})
+			It("スタックの内容を数字として標準出力する命令が作成されること", func() {
+				data := []byte{' ', '\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.i_o(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("putn"))
+			})
+			It("標準入力の値を文字としてスタックに格納する命令が作成されること", func() {
+				data := []byte{'\t', ' '}
+				sut := NewConverter()
+				cmd, seek, err := sut.i_o(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("getc"))
+			})
+			It("標準入力の値を数値としてスタックに格納する命令が作成されること", func() {
+				data := []byte{'\t', '\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.i_o(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("getn"))
+			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data := []byte{'\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.i_o(data)
+				Expect(err).To(Exist)
+				Expect(seek).To(Equal, 0)
+				Expect(cmd).To(NotExist)
+			})
+		})
 	})
 }

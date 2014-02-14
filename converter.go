@@ -93,3 +93,18 @@ func (c *Converter) heapAccess(data []byte) (*Command, int, error) {
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "heap")
 }
+
+func (c *Converter) i_o(data []byte) (*Command, int, error) {
+	cmd := data[0:2]
+	switch {
+	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
+		return NewCommand("putc"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Space, Tab}) == 0:
+		return NewCommand("putn"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
+		return NewCommand("getc"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
+		return NewCommand("getn"), len(cmd), nil
+	}
+	return nil, 0, fmt.Errorf("not defined command [%s]", "io")
+}
