@@ -72,15 +72,20 @@ func flowControl(data []byte) (*Command, int, error) {
 }
 
 func generateFunctions(data []byte) (*Command, int, error) {
+	var cmd *Command
+	var seek int
+	var err error
 	switch data[0] {
 	case Space:
-		return arithmetic(data[1:])
+		cmd, seek, err = arithmetic(data[1:])
 	case Tab:
-		return heapAccess(data[1:])
+		cmd, seek, err = heapAccess(data[1:])
 	case Lf:
-		return i_o(data[1:])
+		cmd, seek, err = i_o(data[1:])
+	default:
+		return nil, 0, fmt.Errorf("not defined command [%s]", "subimp")
 	}
-	return nil, 0, fmt.Errorf("not defined command [%s]", "subimp")
+	return cmd, seek + 1, err
 }
 
 func arithmetic(data []byte) (*Command, int, error) {

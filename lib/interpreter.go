@@ -19,33 +19,10 @@ type Interpreter struct {
 	origin   []byte
 	source   []byte
 	commands *CommandList
-	heapMem  *Heap
-	stackMem *Stack
 }
 
 func NewInterpreter(data []byte) *Interpreter {
-	return &Interpreter{origin: data, heapMem: NewHeap(), stackMem: NewStack()}
-}
-
-func (inter *Interpreter) toChar() ([]byte, error) {
-	inp := *inter
-	var ret []byte
-	for _, b := range inp.origin {
-		switch b {
-		case Space:
-			ret = append(ret, 'S')
-		case Tab:
-			ret = append(ret, 'T')
-		case Lf:
-			ret = append(ret, Lf)
-		}
-	}
-	return ret, nil
-}
-
-func (inter *Interpreter) toCode() error {
-	inter.filter()
-	return inter.parseCommands()
+	return &Interpreter{origin: data}
 }
 
 func (inter *Interpreter) PrintChar() {
@@ -55,13 +32,15 @@ func (inter *Interpreter) PrintChar() {
 	}
 	fmt.Print(string(bys))
 }
+
 func (inter *Interpreter) PrintCode() {
 	err := inter.toCode()
 	if err != nil {
 		panic(err)
 	}
-	for _, cmd := range *inter.commands {
-		fmt.Println(cmd)
+	max := inter.commands.Len()
+	for n := 0; n < max; n++ {
+		fmt.Println(inter.commands.Get(n + 1))
 	}
 }
 
@@ -107,7 +86,7 @@ func (inter *Interpreter) Run() {
 		case "putn":
 			fmt.Print(stack.Pop())
 		case "getc":
-			line, err := ReadStdin()
+			line, err := readStdin()
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -119,7 +98,7 @@ func (inter *Interpreter) Run() {
 				heap.Push(k, int(bl[pos]))
 			}
 		case "getn":
-			line, err := ReadStdin()
+			line, err := readStdin()
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -183,22 +162,39 @@ func (inter *Interpreter) Run() {
 	}
 }
 
-func (inter *Interpreter) filter() {
-	inp := *inter
-	for _, b := range inp.origin {
-		if bytes.IndexByte([]byte{Space, Tab, Lf}, b) >= 0 {
-			inp.source = append(inp.source, b)
+func (inter *Interpreter) toChar() ([]byte, error) {
+	var ret []byte
+	for _, b := range inter.origin {
+		switch b {
+		case Space:
+			ret = append(ret, 'S')
+		case Tab:
+			ret = append(ret, 'T')
+		case Lf:
+			ret = append(ret, Lf)
 		}
 	}
-	*inter = inp
+	return ret, nil
+}
+
+func (inter *Interpreter) toCode() error {
+	inter.filter()
+	return inter.parseCommands()
+}
+
+func (inter *Interpreter) filter() {
+	for _, b := range inter.origin {
+		if bytes.IndexByte([]byte{Space, Tab, Lf}, b) >= 0 {
+			inter.source = append(inter.source, b)
+		}
+	}
 }
 
 func (inter *Interpreter) parseCommands() error {
-	inp := *inter
-	data := inp.source
-	inp.commands = NewCommandList()
-	for pos := 0; pos < len(data); pos++ {
-
+	data := inter.source
+	max := len(data)
+	inter.commands = NewCommandList()
+	for pos := 0; pos < max; {
 		fn, err := createFunction(data[pos])
 		pos += 1
 		command, seek, err := fn(data[pos:])
@@ -207,13 +203,12 @@ func (inter *Interpreter) parseCommands() error {
 		}
 
 		pos += seek
-		inp.commands.Add(command)
+		inter.commands.Add(command)
 	}
-	*inter = inp
 	return nil
 }
 
-func ReadStdin() (string, error) {
+func readStdin() (string, error) {
 	rd := bufio.NewReader(os.Stdin)
 	line, err := rd.ReadString('\n')
 	if err != nil {

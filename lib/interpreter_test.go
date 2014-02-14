@@ -19,7 +19,7 @@ func TestInterpretor(t *testing.T) {
 				Expect(actual.stackMem).To(Exist)
 			})
 		})
-		Context("データを読み込んで命令を実行する", func() {
+		Context("スペースをSにタブをTに置き換える", func() {
 			It("不要なデータを排除してスペースやタブをそれぞれSとTに置き換えること", func() {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				expected := []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'S', 'T', '\n'}
@@ -36,6 +36,8 @@ func TestInterpretor(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(dat).To(Equal, expected)
 			})
+		})
+		Context("コマンドリストを生成", func() {
 			It("不要なデータを排除して指定したコマンドが作成されること", func() {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				sut := NewInterpreter(data)
@@ -51,6 +53,15 @@ func TestInterpretor(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x43))
+			})
+			It("不要なデータを排除して複数のコマンドが作成されること", func() {
+				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n', ' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
+				sut := NewInterpreter(data)
+				err := sut.toCode()
+				Expect(err).To(NotExist)
+				Expect(sut.commands.Len()).To(Equal, 2)
+				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x41))
+				Expect(sut.commands.Get(2)).To(Equal, NewSubCommandWithParam("stack", "push", 0x41))
 			})
 		})
 		Context("不要な文字を排除する関数", func() {
