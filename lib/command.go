@@ -57,3 +57,7 @@ func (l *CommandList) Get(n int) *Command {
 func (l *CommandList) Len() int {
 	return len(*l)
 }
+
+func (l *CommandList) Search(cmd *Command) int {
+	return 0
+}
