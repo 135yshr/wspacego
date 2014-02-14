@@ -1,4 +1,4 @@
-package wspacego
+package lib
 
 type Stack []int
 

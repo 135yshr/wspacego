@@ -1,4 +1,4 @@
-package wspacego
+package lib
 
 import (
 	"bytes"
@@ -18,6 +18,10 @@ type Interpreter struct {
 
 func NewInterpreter(data []byte) *Interpreter {
 	return &Interpreter{origin: data}
+}
+
+func (inter *Interpreter) ToChar() ([]byte, error) {
+	return []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'S', 'T', '\n'}, nil
 }
 
 func (inter *Interpreter) filter() {

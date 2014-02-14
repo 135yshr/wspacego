@@ -1,4 +1,4 @@
-package wspacego
+package lib
 
 import (
 	. "github.com/r7kamura/gospel"
@@ -15,6 +15,16 @@ func TestInterpretor(t *testing.T) {
 				actual := NewInterpreter(data)
 				Expect(actual).To(Exist)
 				Expect(actual.origin).To(Equal, data)
+			})
+		})
+		Context("データを読み込んで命令を実行する", func() {
+			It("不要なデータを排除してスペースやタブをそれぞれSとTに置き換えた文字を出力する", func() {
+				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
+				expected := []byte{'S', 'S', 'T', 'S', 'S', 'S', 'S', 'S', 'T', '\n'}
+				sut := NewInterpreter(data)
+				dat, err := sut.ToChar()
+				Expect(err).To(NotExist)
+				Expect(dat).To(Equal, expected)
 			})
 		})
 		Context("不要な文字を排除する関数", func() {
