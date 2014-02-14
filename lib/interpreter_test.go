@@ -15,6 +15,8 @@ func TestInterpretor(t *testing.T) {
 				actual := NewInterpreter(data)
 				Expect(actual).To(Exist)
 				Expect(actual.origin).To(Equal, data)
+				Expect(actual.heapMem).To(Exist)
+				Expect(actual.stackMem).To(Exist)
 			})
 		})
 		Context("データを読み込んで命令を実行する", func() {
@@ -42,7 +44,7 @@ func TestInterpretor(t *testing.T) {
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, NewSubCommandWithParam("stack", "push", 0x41))
 			})
-			It("不要なデータを排除して指定したコマンドが作成されること", func() {
+			It("不要なデータを排除して指定したコマンドが作成されること（パート２）", func() {
 				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
 				sut := NewInterpreter(data)
 				err := sut.ToCode()

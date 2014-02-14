@@ -14,10 +14,12 @@ type Interpreter struct {
 	origin   []byte
 	source   []byte
 	commands *CommandList
+	heapMem  Heap
+	stackMem *Stack
 }
 
 func NewInterpreter(data []byte) *Interpreter {
-	return &Interpreter{origin: data}
+	return &Interpreter{origin: data, heapMem: make(Heap), stackMem: new(Stack)}
 }
 
 func (inter *Interpreter) ToChar() ([]byte, error) {
