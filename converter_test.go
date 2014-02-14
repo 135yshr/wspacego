@@ -76,5 +76,78 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(NotExist)
 			})
 		})
+		Context("制御文に関する命令の生成", func() {
+			It("ラベルを定義するコマンドが作成されること", func() {
+				data := []byte{' ', ' ', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("label", "1001"))
+			})
+			It("ラベルを呼び出すコマンドが作成されること", func() {
+				data := []byte{' ', '\t', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("call", "1001"))
+			})
+			It("ラベルを呼び出すコマンドが作成されること", func() {
+				data := []byte{' ', '\n', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("goto", "1001"))
+			})
+			It("スタックの値が０のときにラベルを呼び出すコマンドが作成されること", func() {
+				data := []byte{'\t', ' ', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("if stack==0 then goto", "1001"))
+			})
+			It("スタックの値が０未満のときにラベルを呼び出すコマンドが作成されること", func() {
+				data := []byte{'\t', '\t', '\t', ' ', ' ', '\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("if stack!=0 then goto", "1001"))
+			})
+			It("呼び出し元に戻るコマンドが作成されること", func() {
+				data := []byte{'\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("return"))
+			})
+			It("プログラムを終了するコマンドが作成されること", func() {
+				data := []byte{'\n', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("exit"))
+			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data := []byte{'\n', '\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.flowControl(data)
+				Expect(err).To(Exist)
+				Expect(seek).To(Equal, 0)
+				Expect(cmd).To(NotExist)
+			})
+		})
 	})
 }
