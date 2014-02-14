@@ -65,3 +65,20 @@ func (c *Converter) flowControl(data []byte) (*Command, int, error) {
 
 	return NewSubCommand(word, subcmd), len(cmd) + seek, nil
 }
+
+func (c *Converter) arithmetic(data []byte) (*Command, int, error) {
+	cmd := data[0:2]
+	switch {
+	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
+		return NewCommand("add"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Space, Tab}) == 0:
+		return NewCommand("sub"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Space, Lf}) == 0:
+		return NewCommand("mul"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
+		return NewCommand("div"), len(cmd), nil
+	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
+		return NewCommand("mod"), len(cmd), nil
+	}
+	return nil, 0, fmt.Errorf("not defined command [%s]", "arithmetic")
+}

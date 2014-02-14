@@ -149,5 +149,60 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(NotExist)
 			})
 		})
+		Context("演算の命令を作成", func() {
+			It("足し算する命令が作成されること", func() {
+				data := []byte{' ', ' '}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("add"))
+			})
+			It("引き算する命令が作成されること", func() {
+				data := []byte{' ', '\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("sub"))
+			})
+			It("掛け算する命令が作成されること", func() {
+				data := []byte{' ', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("mul"))
+			})
+			It("割り算する命令が作成されること", func() {
+				data := []byte{'\t', ' '}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("div"))
+			})
+			It("余りを求める命令が作成されること", func() {
+				data := []byte{'\t', '\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewCommand("mod"))
+			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data := []byte{'\t', '\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.arithmetic(data)
+				Expect(err).To(Exist)
+				Expect(seek).To(Equal, 0)
+				Expect(cmd).To(NotExist)
+			})
+		})
 	})
 }
