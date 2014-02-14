@@ -89,7 +89,19 @@ func (inter *Interpreter) Run(data []byte) {
 			fmt.Print(string(stack.Pop()))
 		case "putn":
 			fmt.Print(stack.Pop())
-		case "getc", "getn":
+		case "getc":
+			line, err := ReadStdin()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+
+			bl := []byte(line)
+			for pos := len(bl); 0 < pos; pos-- {
+				k := stack.Pop()
+				heap.Push(k, int(bl[pos]))
+			}
+		case "getn":
 			line, err := ReadStdin()
 			if err != nil {
 				fmt.Println(err)
