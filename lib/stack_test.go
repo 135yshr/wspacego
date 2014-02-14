@@ -7,27 +7,23 @@ import (
 
 func TestPush(t *testing.T) {
 	Describe(t, "Stack Push/Pop", func() {
-		Context("Create Instance", func() {
-			It("not nil", func() {
+		Context("インスタンス生成", func() {
+			It("インスタンスが作成されること", func() {
 				Expect(NewStack()).To(Exist)
 			})
 		})
-		Context("push 1", func() {
-			It("evaluates actual == expected", func() {
+		Context("push/popメソッド", func() {
+			It("１を格納して１を取得できること", func() {
 				sut := NewStack()
 				sut.Push(1)
 				Expect(sut.Pop()).To(Equal, 1)
 			})
-		})
-		Context("push 2", func() {
-			It("evaluates actual == expected", func() {
+			It("２を格納して２を取得できること", func() {
 				sut := NewStack()
 				sut.Push(2)
 				Expect(sut.Pop()).To(Equal, 2)
 			})
-		})
-		Context("push 1; push 2", func() {
-			It("evaluates actual == expected", func() {
+			It("１と２を格納して２→１の順に取得できること", func() {
 				sut := NewStack()
 				sut.Push(1)
 				sut.Push(2)
