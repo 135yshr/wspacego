@@ -12,6 +12,18 @@ func TestConerter(t *testing.T) {
 				Expect(NewConverter()).To(Exist)
 			})
 		})
+		Context("命令作成関数の生成", func() {
+			It("スタックを操作する命令を作成する関数が作成されること", func() {
+				data := byte(' ')
+				sut := NewConverter()
+				fn, err := sut.CreateFunction(data)
+				Expect(err).To(NotExist)
+				Expect(fn).To(Exist)
+				// 目的のメソッドが生成されているか確認する処理を作る必要がある
+				// 下記のコードだと同じということがチェックできない
+				//Expect(fn).To(Equal, sut.stackManipulation)
+			})
+		})
 		Context("スタックに関連する命令の生成", func() {
 			It("スタックに１をプッシュするコマンドが作成されること", func() {
 				data := []byte{' ', '\t', '\n'}

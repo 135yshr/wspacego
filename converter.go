@@ -13,14 +13,14 @@ func NewConverter() *Converter {
 }
 
 func (c *Converter) CreateFunction(b byte) (func([]byte) (*Command, int, error), error) {
-	// 	switch b {
-	// 	case Space:
-	// 		return stackManipulation, nil
-	// 	case Lf:
-	// 		return flowControl, nil
-	// 	case Tab:
-	// 		return generateSubImpfunc, nil
-	// 	}
+	switch b {
+	case Space:
+		return c.stackManipulation, nil
+	case Lf:
+		return c.flowControl, nil
+		// case Tab:
+		// 	return generateSubImpfunc, nil
+	}
 	return nil, fmt.Errorf("not defined")
 }
 
