@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/135yshr/wspacego/lib"
 	"io/ioutil"
 	"os"
 	"strings"
-	"wspacego/lib"
 )
 
 var (
