@@ -204,5 +204,33 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(NotExist)
 			})
 		})
+		Context("ヒープ領域を操作する命令の作成", func() {
+			It("ヒープ領域にスタックトップの値を保存する命令が作成されること", func() {
+				data := []byte{' '}
+				sut := NewConverter()
+				cmd, seek, err := sut.heapAccess(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("heap", "push"))
+			})
+			It("ヒープ領域あら値を取得してスタック領域に保存する命令が作成されること", func() {
+				data := []byte{'\t'}
+				sut := NewConverter()
+				cmd, seek, err := sut.heapAccess(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, NewSubCommand("heap", "pop"))
+			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data := []byte{'\n'}
+				sut := NewConverter()
+				cmd, seek, err := sut.heapAccess(data)
+				Expect(err).To(Exist)
+				Expect(seek).To(Equal, 0)
+				Expect(cmd).To(NotExist)
+			})
+		})
 	})
 }

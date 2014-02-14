@@ -82,3 +82,14 @@ func (c *Converter) arithmetic(data []byte) (*Command, int, error) {
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "arithmetic")
 }
+
+func (c *Converter) heapAccess(data []byte) (*Command, int, error) {
+	const cmd = "heap"
+	switch data[0] {
+	case Space:
+		return NewSubCommand(cmd, "push"), 1, nil
+	case Tab:
+		return NewSubCommand(cmd, "pop"), 1, nil
+	}
+	return nil, 0, fmt.Errorf("not defined command [%s]", "heap")
+}
