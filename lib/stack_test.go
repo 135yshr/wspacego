@@ -40,6 +40,16 @@ func TestPush(t *testing.T) {
 				Expect(sut.Pop()).To(Equal, 1)
 				Expect(sut.Pop()).To(Equal, 10)
 			})
+			It("１番目と２番目の値が入れ替わること", func() {
+				sut := NewStack()
+				sut.Push(1)
+				sut.Push(10)
+				sut.Push(20)
+				sut.Swap()
+				Expect(sut.Pop()).To(Equal, 10)
+				Expect(sut.Pop()).To(Equal, 20)
+				Expect(sut.Pop()).To(Equal, 1)
+			})
 		})
 	})
 }
