@@ -19,7 +19,7 @@ type Interpreter struct {
 }
 
 func NewInterpreter(data []byte) *Interpreter {
-	return &Interpreter{origin: data, heapMem: make(Heap), stackMem: new(Stack)}
+	return &Interpreter{origin: data, heapMem: NewHeap(), stackMem: NewStack()}
 }
 
 func (inter *Interpreter) ToChar() ([]byte, error) {
