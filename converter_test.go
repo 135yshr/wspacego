@@ -43,6 +43,13 @@ func TestConerter(t *testing.T) {
 				//      下記のコードだと同じということがチェックできない
 				//Expect(fn).To(Equal, sut.stackManipulation)
 			})
+			It("解析できないパターンができたときにエラーが作成されること", func() {
+				data := byte('A')
+				sut := NewConverter()
+				fn, err := sut.CreateFunction(data)
+				Expect(err).To(Exist)
+				Expect(fn).To(NotExist)
+			})
 		})
 		Context("スタックに関連する命令の生成", func() {
 			It("スタックに１をプッシュするコマンドが作成されること", func() {
