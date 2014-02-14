@@ -147,5 +147,21 @@ func TestCommandList(t *testing.T) {
 				Expect(actual).To(NotExist)
 			})
 		})
+		Context("コマンドリストから目的のコマンドを見つける", func() {
+			sut := NewCommandList()
+			sut.Add(NewCommand("test"))
+			sut.Add(NewCommand("test2"))
+			sut.Add(NewCommand("test3"))
+			It("コマンドリストから２番目のコマンドのキーを取得できること", func() {
+				key, err := sut.Search(NewCommand("test2"))
+				Expect(err).To(NotExist)
+				Expect(key).To(Equal, 2)
+			})
+			It("コマンドリストから３番目のコマンドのキーを取得できること", func() {
+				key, err := sut.Search(NewCommand("test3"))
+				Expect(err).To(NotExist)
+				Expect(key).To(Equal, 3)
+			})
+		})
 	})
 }

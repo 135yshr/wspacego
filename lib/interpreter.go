@@ -112,16 +112,28 @@ func (inter *Interpreter) Run(data []byte) {
 		// case "label":
 		case "call":
 			call_stack.Push(p)
-			p = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			if err != nil {
+				panic(err)
+			}
 		case "goto":
-			p = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			if err != nil {
+				panic(err)
+			}
 		case "if stack==0 then goto":
 			if stack.Pop() == 0 {
-				p = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				if err != nil {
+					panic(err)
+				}
 			}
 		case "if stack!=0 then goto":
 			if stack.Pop() != 0 {
-				p = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				if err != nil {
+					panic(err)
+				}
 			}
 		case "add":
 			two, one := stack.Pop(), stack.Pop()

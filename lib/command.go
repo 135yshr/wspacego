@@ -1,6 +1,9 @@
 package lib
 
-import "fmt"
+import (
+	"fmt"
+	"reflect"
+)
 
 type Command struct {
 	cmd    string
@@ -58,6 +61,11 @@ func (l *CommandList) Len() int {
 	return len(*l)
 }
 
-func (l *CommandList) Search(cmd *Command) int {
-	return 0
+func (l *CommandList) Search(cmd *Command) (int, error) {
+	for k, c := range *l {
+		if reflect.DeepEqual(c, cmd) {
+			return k, nil
+		}
+	}
+	return -1, fmt.Errorf("not found")
 }
