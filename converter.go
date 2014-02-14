@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func CreateFunction(b byte) (func([]byte) (*Command, int, error), error) {
+func createFunction(b byte) (func([]byte) (*Command, int, error), error) {
 	switch b {
 	case Space:
 		return stackManipulation, nil

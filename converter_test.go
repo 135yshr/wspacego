@@ -10,7 +10,7 @@ func TestConerter(t *testing.T) {
 		Context("命令作成関数の生成", func() {
 			It("スタックを操作する命令を生成する関数が作成されること", func() {
 				data := byte(' ')
-				fn, err := CreateFunction(data)
+				fn, err := createFunction(data)
 				Expect(err).To(NotExist)
 				Expect(fn).To(Exist)
 				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
@@ -19,7 +19,7 @@ func TestConerter(t *testing.T) {
 			})
 			It("制御文を作成する関数が生成されること", func() {
 				data := byte('\n')
-				fn, err := CreateFunction(data)
+				fn, err := createFunction(data)
 				Expect(err).To(NotExist)
 				Expect(fn).To(Exist)
 				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
@@ -28,7 +28,7 @@ func TestConerter(t *testing.T) {
 			})
 			It("演算やヒープ領域の操作と入出力に関する命令を作成する関数が生成されること", func() {
 				data := byte('\t')
-				fn, err := CreateFunction(data)
+				fn, err := createFunction(data)
 				Expect(err).To(NotExist)
 				Expect(fn).To(Exist)
 				// TODO:目的のメソッドが生成されているか確認する処理を作る必要がある
@@ -37,7 +37,7 @@ func TestConerter(t *testing.T) {
 			})
 			It("解析できないパターンができたときにエラーが作成されること", func() {
 				data := byte('A')
-				fn, err := CreateFunction(data)
+				fn, err := createFunction(data)
 				Expect(err).To(Exist)
 				Expect(fn).To(NotExist)
 			})
