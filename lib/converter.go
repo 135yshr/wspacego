@@ -21,7 +21,7 @@ func stackManipulation(data []byte) (*Command, int, error) {
 	if data[0] == Space {
 		buf, seek := readEndLf(data[1:])
 		num := parseInt(buf)
-		return NewSubCommandWithParam("stack", "push", num), seek + 1, nil
+		return newSubCommandWithParam("stack", "push", num), seek + 1, nil
 	}
 
 	var word, subcmd string
@@ -39,7 +39,7 @@ func stackManipulation(data []byte) (*Command, int, error) {
 	default:
 		return nil, 0, fmt.Errorf("not defined command [%s]", "mani")
 	}
-	return NewSubCommand(word, subcmd), len(data), nil
+	return newSubCommand(word, subcmd), len(data), nil
 }
 
 func flowControl(data []byte) (*Command, int, error) {
@@ -58,9 +58,9 @@ func flowControl(data []byte) (*Command, int, error) {
 	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
 		word = "if stack!=0 then goto"
 	case bytes.Compare(cmd, []byte{Tab, Lf}) == 0:
-		return NewCommand("return"), len(cmd), nil
+		return newCommand("return"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Lf, Lf}) == 0:
-		return NewCommand("exit"), len(cmd), nil
+		return newCommand("exit"), len(cmd), nil
 	default:
 		return nil, 0, fmt.Errorf("not defined command [%s]", "flow")
 	}
@@ -68,7 +68,7 @@ func flowControl(data []byte) (*Command, int, error) {
 	buf, seek := readEndLf(data[len(cmd):])
 	subcmd := string(parseZeroOne(buf))
 
-	return NewSubCommand(word, subcmd), len(cmd) + seek, nil
+	return newSubCommand(word, subcmd), len(cmd) + seek, nil
 }
 
 func generateFunctions(data []byte) (*Command, int, error) {
@@ -92,15 +92,15 @@ func arithmetic(data []byte) (*Command, int, error) {
 	cmd := data[0:2]
 	switch {
 	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
-		return NewCommand("add"), len(cmd), nil
+		return newCommand("add"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Space, Tab}) == 0:
-		return NewCommand("sub"), len(cmd), nil
+		return newCommand("sub"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Space, Lf}) == 0:
-		return NewCommand("mul"), len(cmd), nil
+		return newCommand("mul"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
-		return NewCommand("div"), len(cmd), nil
+		return newCommand("div"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
-		return NewCommand("mod"), len(cmd), nil
+		return newCommand("mod"), len(cmd), nil
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "arithmetic")
 }
@@ -109,9 +109,9 @@ func heapAccess(data []byte) (*Command, int, error) {
 	const cmd = "heap"
 	switch data[0] {
 	case Space:
-		return NewSubCommand(cmd, "push"), 1, nil
+		return newSubCommand(cmd, "push"), 1, nil
 	case Tab:
-		return NewSubCommand(cmd, "pop"), 1, nil
+		return newSubCommand(cmd, "pop"), 1, nil
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "heap")
 }
@@ -120,13 +120,13 @@ func i_o(data []byte) (*Command, int, error) {
 	cmd := data[0:2]
 	switch {
 	case bytes.Compare(cmd, []byte{Space, Space}) == 0:
-		return NewCommand("putc"), len(cmd), nil
+		return newCommand("putc"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Space, Tab}) == 0:
-		return NewCommand("putn"), len(cmd), nil
+		return newCommand("putn"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
-		return NewCommand("getc"), len(cmd), nil
+		return newCommand("getc"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
-		return NewCommand("getn"), len(cmd), nil
+		return newCommand("getn"), len(cmd), nil
 	}
 	return nil, 0, fmt.Errorf("not defined command [%s]", "io")
 }

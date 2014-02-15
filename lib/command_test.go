@@ -11,12 +11,12 @@ func TestCommnad(t *testing.T) {
 		Context("コマンドだけ指定する", func() {
 			It("インスタンスが作成できること", func() {
 				cmd := "cmd"
-				sut := NewCommand(cmd)
+				sut := newCommand(cmd)
 				Expect(sut).To(Exist)
 			})
 			It("コマンドだけ変数が書き換えられていること", func() {
 				cmd := "cmd"
-				sut := NewCommand(cmd)
+				sut := newCommand(cmd)
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, "")
 				Expect(sut.param).To(Equal, 0)
@@ -25,11 +25,11 @@ func TestCommnad(t *testing.T) {
 		Context("サブコマンドを作成する", func() {
 			It("インスタンスが作成できること", func() {
 				cmd, subcmd := "cmd", "subcmd"
-				Expect(NewSubCommand(cmd, subcmd)).To(Exist)
+				Expect(newSubCommand(cmd, subcmd)).To(Exist)
 			})
 			It("コマンドとサブコマンドが指定した値で書き換えられていること", func() {
 				cmd, subcmd := "cmd", "subcmd"
-				sut := NewSubCommand(cmd, subcmd)
+				sut := newSubCommand(cmd, subcmd)
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, subcmd)
 				Expect(sut.param).To(Equal, 0)
@@ -39,13 +39,13 @@ func TestCommnad(t *testing.T) {
 			It("インスタンスが作成できること", func() {
 				cmd := "cmd"
 				param := 1
-				sut := NewCommandWithParam(cmd, param)
+				sut := newCommandWithParam(cmd, param)
 				Expect(sut).To(Exist)
 			})
 			It("コマンドとパラメータが指定した値で書き換えられていること", func() {
 				cmd := "cmd"
 				param := 1
-				sut := NewCommandWithParam(cmd, param)
+				sut := newCommandWithParam(cmd, param)
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, "")
 				Expect(sut.param).To(Equal, 1)
@@ -55,13 +55,13 @@ func TestCommnad(t *testing.T) {
 			It("インスタンスが作成できること", func() {
 				cmd, subcmd := "cmd", "subcmd"
 				param := 1
-				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				sut := newSubCommandWithParam(cmd, subcmd, param)
 				Expect(sut).To(Exist)
 			})
 			It("指定した値でメンバー変数が書き換えられていること", func() {
 				cmd, subcmd := "cmd", "subcmd"
 				param := 1
-				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				sut := newSubCommandWithParam(cmd, subcmd, param)
 				Expect(sut.cmd).To(Equal, cmd)
 				Expect(sut.subcmd).To(Equal, subcmd)
 				Expect(sut.param).To(Equal, param)
@@ -71,13 +71,13 @@ func TestCommnad(t *testing.T) {
 			It("指定したフォーマットになっている", func() {
 				cmd, subcmd := "cmd", "subcmd"
 				param := 1
-				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				sut := newSubCommandWithParam(cmd, subcmd, param)
 				Expect(fmt.Sprint(sut)).To(Equal, "cmd subcmd 1")
 			})
 			It("パラメータに２を渡したとき指定したフォーマットになっている", func() {
 				cmd, subcmd := "cmd", "subcmd"
 				param := 2
-				sut := NewSubCommandWithParam(cmd, subcmd, param)
+				sut := newSubCommandWithParam(cmd, subcmd, param)
 				Expect(fmt.Sprint(sut)).To(Equal, "cmd subcmd 2")
 			})
 		})
@@ -88,40 +88,40 @@ func TestCommandList(t *testing.T) {
 	Describe(t, "CommandList Tests", func() {
 		Context("実行するコマンドの一覧を作成する", func() {
 			It("インスタンスが作成できること", func() {
-				sut := NewCommandList()
+				sut := newCommandList()
 				Expect(sut).To(Exist)
 			})
 		})
 		Context("リストにコマンドを追加する関数", func() {
-			sut := NewCommandList()
+			sut := newCommandList()
 			It("コマンドが追加できることを確認する", func() {
-				sut.Add(NewCommand("test"))
+				sut.Add(newCommand("test"))
 				Expect(sut.Len()).To(Equal, 1)
 			})
 			It("コマンドが追加できることを確認する（2回目）", func() {
-				sut.Add(NewCommand("test2"))
+				sut.Add(newCommand("test2"))
 				Expect(sut.Len()).To(Equal, 2)
 			})
 		})
 		Context("コマンドをすべて削除する関数", func() {
-			sut := NewCommandList()
-			sut.Add(NewCommand("test"))
+			sut := newCommandList()
+			sut.Add(newCommand("test"))
 			Expect(sut.Len()).To(Equal, 1)
 			It("コマンドがすべて削除される", func() {
 				sut.Clear()
 				Expect(sut.Len()).To(Equal, 0)
 			})
 			It("コマンドがすべて削除される", func() {
-				sut.Add(NewCommand("test"))
-				sut.Add(NewCommand("test2"))
+				sut.Add(newCommand("test"))
+				sut.Add(newCommand("test2"))
 				sut.Clear()
 				Expect(sut.Len()).To(Equal, 0)
 			})
 		})
 		Context("コマンドを行番号で取得する関数", func() {
-			sut := NewCommandList()
-			sut.Add(NewCommand("test"))
-			sut.Add(NewCommand("test2"))
+			sut := newCommandList()
+			sut.Add(newCommand("test"))
+			sut.Add(newCommand("test2"))
 			It("指定した１行目のコマンドを取得できること", func() {
 				actual := sut.Get(1)
 				Expect(actual).To(Exist)
@@ -148,27 +148,27 @@ func TestCommandList(t *testing.T) {
 			})
 		})
 		Context("コマンドリストから目的のコマンドを見つける", func() {
-			sut := NewCommandList()
-			sut.Add(NewCommand("test"))
-			sut.Add(NewCommand("test2"))
-			sut.Add(NewCommand("test3"))
+			sut := newCommandList()
+			sut.Add(newCommand("test"))
+			sut.Add(newCommand("test2"))
+			sut.Add(newCommand("test3"))
 			It("コマンドリストから２番目のコマンドのキーを取得できること", func() {
-				key, err := sut.Search(NewCommand("test2"))
+				key, err := sut.Search(newCommand("test2"))
 				Expect(err).To(NotExist)
 				Expect(key).To(Equal, 2)
 			})
 			It("コマンドリストから３番目のコマンドのキーを取得できること", func() {
-				key, err := sut.Search(NewCommand("test3"))
+				key, err := sut.Search(newCommand("test3"))
 				Expect(err).To(NotExist)
 				Expect(key).To(Equal, 3)
 			})
 			It("コマンドリストから１番目のコマンドのキーを取得できること", func() {
-				key, err := sut.Search(NewCommand("test"))
+				key, err := sut.Search(newCommand("test"))
 				Expect(err).To(NotExist)
 				Expect(key).To(Equal, 1)
 			})
 			It("存在しないコマンドを指定されたときエラーが発生すること", func() {
-				key, err := sut.Search(NewCommand("not defined"))
+				key, err := sut.Search(newCommand("not defined"))
 				Expect(err).To(Exist)
 				Expect(key).To(Equal, -1)
 			})

@@ -49,7 +49,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 1))
+				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 1))
 			})
 			It("スタックに2をプッシュするコマンドが作成されること", func() {
 				data := []byte{' ', '\t', ' ', '\n'}
@@ -57,7 +57,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 2))
+				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 2))
 			})
 			It("スタックに4をプッシュするコマンドが作成されること", func() {
 				data := []byte{' ', '\t', ' ', ' ', '\n'}
@@ -65,7 +65,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommandWithParam("stack", "push", 4))
+				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 4))
 			})
 			It("スタックをコピーするコマンドが作成されること", func() {
 				data := []byte{'\n', ' '}
@@ -73,7 +73,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("stack", "copy"))
+				Expect(cmd).To(Equal, newSubCommand("stack", "copy"))
 			})
 			It("スタックのトップと２番目を入れ替えるコマンドが作成されること", func() {
 				data := []byte{'\n', '\t'}
@@ -81,7 +81,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("stack", "swap"))
+				Expect(cmd).To(Equal, newSubCommand("stack", "swap"))
 			})
 			It("スタックのトップを削除するコマンドが作成されること", func() {
 				data := []byte{'\n', '\n'}
@@ -89,7 +89,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("stack", "remove"))
+				Expect(cmd).To(Equal, newSubCommand("stack", "remove"))
 			})
 			It("定義されていない命令が指定されたときにundefinedの命令が作成されること", func() {
 				data := []byte{'\t', '\n'}
@@ -106,7 +106,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("label", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("label", "1001"))
 			})
 			It("ラベルを呼び出すコマンドが作成されること", func() {
 				data := []byte{' ', '\t', '\t', ' ', ' ', '\t', '\n'}
@@ -114,7 +114,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("call", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("call", "1001"))
 			})
 			It("ラベルを呼び出すコマンドが作成されること", func() {
 				data := []byte{' ', '\n', '\t', ' ', ' ', '\t', '\n'}
@@ -122,7 +122,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("goto", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("goto", "1001"))
 			})
 			It("スタックの値が０のときにラベルを呼び出すコマンドが作成されること", func() {
 				data := []byte{'\t', ' ', '\t', ' ', ' ', '\t', '\n'}
@@ -130,7 +130,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("if stack==0 then goto", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("if stack==0 then goto", "1001"))
 			})
 			It("スタックの値が０未満のときにラベルを呼び出すコマンドが作成されること", func() {
 				data := []byte{'\t', '\t', '\t', ' ', ' ', '\t', '\n'}
@@ -138,7 +138,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("if stack!=0 then goto", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("if stack!=0 then goto", "1001"))
 			})
 			It("呼び出し元に戻るコマンドが作成されること", func() {
 				data := []byte{'\t', '\n'}
@@ -146,7 +146,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("return"))
+				Expect(cmd).To(Equal, newCommand("return"))
 			})
 			It("プログラムを終了するコマンドが作成されること", func() {
 				data := []byte{'\n', '\n'}
@@ -154,7 +154,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("exit"))
+				Expect(cmd).To(Equal, newCommand("exit"))
 			})
 			It("解析できないパターンができたときにエラーが作成されること", func() {
 				data := []byte{'\n', '\t'}
@@ -171,7 +171,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("add"))
+				Expect(cmd).To(Equal, newCommand("add"))
 			})
 			It("引き算する命令が作成されること", func() {
 				data := []byte{' ', '\t'}
@@ -179,7 +179,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("sub"))
+				Expect(cmd).To(Equal, newCommand("sub"))
 			})
 			It("掛け算する命令が作成されること", func() {
 				data := []byte{' ', '\n'}
@@ -187,7 +187,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("mul"))
+				Expect(cmd).To(Equal, newCommand("mul"))
 			})
 			It("割り算する命令が作成されること", func() {
 				data := []byte{'\t', ' '}
@@ -195,7 +195,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("div"))
+				Expect(cmd).To(Equal, newCommand("div"))
 			})
 			It("余りを求める命令が作成されること", func() {
 				data := []byte{'\t', '\t'}
@@ -203,7 +203,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("mod"))
+				Expect(cmd).To(Equal, newCommand("mod"))
 			})
 			It("解析できないパターンができたときにエラーが作成されること", func() {
 				data := []byte{'\t', '\n'}
@@ -220,7 +220,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("heap", "push"))
+				Expect(cmd).To(Equal, newSubCommand("heap", "push"))
 			})
 			It("ヒープ領域あら値を取得してスタック領域に保存する命令が作成されること", func() {
 				data := []byte{'\t'}
@@ -228,7 +228,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewSubCommand("heap", "pop"))
+				Expect(cmd).To(Equal, newSubCommand("heap", "pop"))
 			})
 			It("解析できないパターンができたときにエラーが作成されること", func() {
 				data := []byte{'\n'}
@@ -245,7 +245,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("putc"))
+				Expect(cmd).To(Equal, newCommand("putc"))
 			})
 			It("スタックの内容を数字として標準出力する命令が作成されること", func() {
 				data := []byte{' ', '\t'}
@@ -253,7 +253,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("putn"))
+				Expect(cmd).To(Equal, newCommand("putn"))
 			})
 			It("標準入力の値を文字としてスタックに格納する命令が作成されること", func() {
 				data := []byte{'\t', ' '}
@@ -261,7 +261,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("getc"))
+				Expect(cmd).To(Equal, newCommand("getc"))
 			})
 			It("標準入力の値を数値としてスタックに格納する命令が作成されること", func() {
 				data := []byte{'\t', '\t'}
@@ -269,7 +269,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, NewCommand("getn"))
+				Expect(cmd).To(Equal, newCommand("getn"))
 			})
 			It("解析できないパターンができたときにエラーが作成されること", func() {
 				data := []byte{'\t', '\n'}
