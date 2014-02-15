@@ -50,9 +50,9 @@ func (inter *Interpreter) Run() {
 		panic(err)
 	}
 
-	call_stack := NewStack()
-	stack := NewStack()
-	heap := NewHeap()
+	call_stack := newStack()
+	stack := newStack()
+	heap := newHeap()
 
 	max := inter.commands.Len()
 	for p := 1; p <= max; p++ {

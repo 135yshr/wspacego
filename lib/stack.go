@@ -2,7 +2,7 @@ package lib
 
 type Stack []int
 
-func NewStack() *Stack {
+func newStack() *Stack {
 	return new(Stack)
 }
 
