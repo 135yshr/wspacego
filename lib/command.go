@@ -17,23 +17,23 @@ func (c *Command) String() string {
 	return fmt.Sprintf("%s %s %d", c.cmd, c.subcmd, c.param)
 }
 
-func NewCommand(cmd string) *Command {
+func newCommand(cmd string) *Command {
 	return &Command{cmd: cmd}
 }
 
-func NewSubCommand(cmd, subcmd string) *Command {
+func newSubCommand(cmd, subcmd string) *Command {
 	return &Command{cmd: cmd, subcmd: subcmd}
 }
 
-func NewCommandWithParam(cmd string, param int) *Command {
+func newCommandWithParam(cmd string, param int) *Command {
 	return &Command{cmd: cmd, param: param}
 }
 
-func NewSubCommandWithParam(cmd, subcmd string, param int) *Command {
+func newSubCommandWithParam(cmd, subcmd string, param int) *Command {
 	return &Command{cmd, subcmd, param}
 }
 
-func NewCommandList() *CommandList {
+func newCommandList() *CommandList {
 	return &CommandList{}
 }
 

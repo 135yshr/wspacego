@@ -2,7 +2,7 @@ package lib
 
 type Heap map[int]int
 
-func NewHeap() *Heap {
+func newHeap() *Heap {
 	ret := make(Heap)
 	return &ret
 }

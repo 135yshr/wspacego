@@ -50,9 +50,9 @@ func (inter *Interpreter) Run() {
 		panic(err)
 	}
 
-	call_stack := NewStack()
-	stack := NewStack()
-	heap := NewHeap()
+	call_stack := newStack()
+	stack := newStack()
+	heap := newHeap()
 
 	max := inter.commands.Len()
 	for p := 1; p <= max; p++ {
@@ -120,25 +120,25 @@ func (inter *Interpreter) Run() {
 		// case "label":
 		case "call":
 			call_stack.Push(p)
-			p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			p, err = inter.commands.Search(newSubCommand("label", cmd.subcmd))
 			if err != nil {
 				panic(err)
 			}
 		case "goto":
-			p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+			p, err = inter.commands.Search(newSubCommand("label", cmd.subcmd))
 			if err != nil {
 				panic(err)
 			}
 		case "if stack==0 then goto":
 			if stack.Pop() == 0 {
-				p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				p, err = inter.commands.Search(newSubCommand("label", cmd.subcmd))
 				if err != nil {
 					panic(err)
 				}
 			}
 		case "if stack!=0 then goto":
 			if stack.Pop() != 0 {
-				p, err = inter.commands.Search(NewSubCommand("label", cmd.subcmd))
+				p, err = inter.commands.Search(newSubCommand("label", cmd.subcmd))
 				if err != nil {
 					panic(err)
 				}
@@ -193,7 +193,7 @@ func (inter *Interpreter) filter() {
 func (inter *Interpreter) parseCommands() error {
 	data := inter.source
 	max := len(data)
-	inter.commands = NewCommandList()
+	inter.commands = newCommandList()
 	for pos := 0; pos < max; {
 		fn, err := createFunction(data[pos])
 		pos += 1
