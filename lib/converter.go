@@ -40,6 +40,10 @@ func stackManipulation(data []byte) (*Command, int, error) {
 		buf, seek := readEndLf(data[2:])
 		num := parseInt(buf)
 		return newSubCommandWithParam("stack", "ncopy", num), seek + 2, nil
+	case bytes.Compare(cmd, []byte{Tab, Lf}) == 0:
+		buf, seek := readEndLf(data[2:])
+		num := parseInt(buf)
+		return newSubCommandWithParam("stack", "move", num), seek + 2, nil
 	default:
 		return nil, 0, fmt.Errorf("not defined command [%s]", "mani")
 	}
