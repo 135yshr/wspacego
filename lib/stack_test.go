@@ -121,6 +121,17 @@ func TestPush(t *testing.T) {
 				Expect(sut.Pop()).To(Equal, 2)
 				Expect(sut.Pop()).To(Equal, 1)
 			})
+			It("-1番目を指定したときエラーが返ってくること", func() {
+				sut := newStack()
+				sut.Push(1)
+				sut.Push(2)
+				sut.Push(3)
+				err := sut.Move(-1)
+				Expect(err).To(Exist)
+				Expect(sut.Pop()).To(Equal, 3)
+				Expect(sut.Pop()).To(Equal, 2)
+				Expect(sut.Pop()).To(Equal, 1)
+			})
 		})
 	})
 }
