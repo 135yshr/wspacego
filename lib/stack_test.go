@@ -57,5 +57,14 @@ func TestPush(t *testing.T) {
 				Expect(sut.Pop()).To(Equal, 1)
 			})
 		})
+		Context("スタックのn番目の値をトップにコピーする", func() {
+			It("スタックのコピーされ指定した値がトップに存在すること", func() {
+				sut := newStack()
+				sut.Push(1)
+				sut.Push(2)
+				sut.Copy(0)
+				Expect(sut.Pop()).To(Equal, 1)
+			})
+		})
 	})
 }

@@ -26,3 +26,13 @@ func (s *Stack) Swap() {
 		*s = st
 	}
 }
+
+func (s *Stack) Copy(n int) {
+	st := *s
+	size := len(st)
+	if n < size {
+		v := st[n]
+		st.Push(v)
+		*s = st
+	}
+}

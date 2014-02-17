@@ -66,6 +66,7 @@ func (inter *Interpreter) Run() {
 				b := stack.Pop()
 				stack.Push(b)
 				stack.Push(b)
+			case "ncopy":
 			case "swap":
 				stack.Swap()
 			case "remove":
