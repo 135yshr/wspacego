@@ -22,13 +22,15 @@ func (s *Stack) Push(n int) {
 	*s = append(*s, n)
 }
 
-func (s *Stack) Swap() {
+func (s *Stack) Swap() error {
 	st := *s
 	size := len(st)
-	if size > 1 {
-		st[size-1], st[size-2] = st[size-2], st[size-1]
-		*s = st
+	if size < 2 {
+		return fmt.Errorf("Value does not contain only one.")
 	}
+	st[size-1], st[size-2] = st[size-2], st[size-1]
+	*s = st
+	return nil
 }
 
 func (s *Stack) Copy(n int) error {
