@@ -90,5 +90,17 @@ func TestPush(t *testing.T) {
 				Expect(sut.Pop()).To(Equal, 2)
 			})
 		})
+		Context("スタックのn番目の値をトップに移動する", func() {
+			It("1番目を指定したときスタックのトップに値が移動されること", func() {
+				sut := newStack()
+				sut.Push(1)
+				sut.Push(2)
+				sut.Push(3)
+				sut.Move(0)
+				Expect(sut.Pop()).To(Equal, 1)
+				Expect(sut.Pop()).To(Equal, 3)
+				Expect(sut.Pop()).To(Equal, 2)
+			})
+		})
 	})
 }

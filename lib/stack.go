@@ -44,3 +44,15 @@ func (s *Stack) Copy(n int) error {
 	*s = st
 	return nil
 }
+
+func (s *Stack) Move(n int) error {
+	st := *s
+	size := len(st)
+	v := st[n]
+	for idx := n; idx < size-1; idx++ {
+		st[idx] = st[idx+1]
+	}
+	st[size-1] = v
+	*s = st
+	return nil
+}
