@@ -47,7 +47,7 @@ func stackManipulation(data []byte) (*Command, int, error) {
 	default:
 		return nil, 0, fmt.Errorf("not defined command [%s]", "mani")
 	}
-	return newSubCommand(word, subcmd), len(data), nil
+	return newSubCommand(word, subcmd), len(cmd), nil
 }
 
 func flowControl(data []byte) (*Command, int, error) {

@@ -67,6 +67,11 @@ func (inter *Interpreter) Run() {
 				stack.Push(b)
 				stack.Push(b)
 			case "ncopy":
+				n := stack.Pop()
+				stack.Copy(n)
+			case "move":
+				n := stack.Pop()
+				stack.Move(n)
 			case "swap":
 				stack.Swap()
 			case "remove":
@@ -117,7 +122,7 @@ func (inter *Interpreter) Run() {
 			p = call_stack.Pop()
 		case "exit":
 			fmt.Println("exit program")
-			break
+			return
 		// case "label":
 		case "call":
 			call_stack.Push(p)
