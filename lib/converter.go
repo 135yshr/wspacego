@@ -64,7 +64,7 @@ func flowControl(data []byte) (*Command, int, error) {
 	case bytes.Compare(cmd, []byte{Tab, Space}) == 0:
 		word = "if stack==0 then goto"
 	case bytes.Compare(cmd, []byte{Tab, Tab}) == 0:
-		word = "if stack!=0 then goto"
+		word = "if stack<0 then goto"
 	case bytes.Compare(cmd, []byte{Tab, Lf}) == 0:
 		return newCommand("return"), len(cmd), nil
 	case bytes.Compare(cmd, []byte{Lf, Lf}) == 0:

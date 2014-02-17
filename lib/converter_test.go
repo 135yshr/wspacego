@@ -154,7 +154,7 @@ func TestConerter(t *testing.T) {
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
-				Expect(cmd).To(Equal, newSubCommand("if stack!=0 then goto", "1001"))
+				Expect(cmd).To(Equal, newSubCommand("if stack<0 then goto", "1001"))
 			})
 			It("呼び出し元に戻るコマンドが作成されること", func() {
 				data := []byte{'\t', '\n'}
