@@ -72,6 +72,14 @@ func TestPush(t *testing.T) {
 				sut.Copy(1)
 				Expect(sut.Pop()).To(Equal, 2)
 			})
+			It("3番目を指定したときエラーが返ってくること", func() {
+				sut := newStack()
+				sut.Push(1)
+				sut.Push(2)
+				err := sut.Copy(3)
+				Expect(err).To(Exist)
+				Expect(sut.Pop()).To(Equal, 2)
+			})
 		})
 	})
 }

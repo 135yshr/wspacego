@@ -1,5 +1,9 @@
 package lib
 
+import (
+	"fmt"
+)
+
 type Stack []int
 
 func newStack() *Stack {
@@ -27,12 +31,14 @@ func (s *Stack) Swap() {
 	}
 }
 
-func (s *Stack) Copy(n int) {
+func (s *Stack) Copy(n int) error {
 	st := *s
 	size := len(st)
-	if n < size {
-		v := st[n]
-		st.Push(v)
-		*s = st
+	if size <= n {
+		return fmt.Errorf("out of range! [%d]", n)
 	}
+	v := st[n]
+	st.Push(v)
+	*s = st
+	return nil
 }
