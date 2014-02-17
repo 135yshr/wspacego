@@ -47,10 +47,10 @@ func (s *Stack) Copy(n int) error {
 
 func (s *Stack) Move(n int) error {
 	st := *s
-	if n < 0 {
+	size := len(st)
+	if n < 0 || size <= n {
 		return fmt.Errorf("out of range! [%d]", n)
 	}
-	size := len(st)
 	v := st[n]
 	for idx := n; idx < size-1; idx++ {
 		st[idx] = st[idx+1]
