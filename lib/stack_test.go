@@ -80,6 +80,14 @@ func TestPush(t *testing.T) {
 				Expect(err).To(Exist)
 				Expect(sut.Pop()).To(Equal, 2)
 			})
+			It("-1番目を指定したときエラーが返ってくること", func() {
+				sut := newStack()
+				sut.Push(1)
+				sut.Push(2)
+				err := sut.Copy(-1)
+				Expect(err).To(Exist)
+				Expect(sut.Pop()).To(Equal, 2)
+			})
 		})
 	})
 }

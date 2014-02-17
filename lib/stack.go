@@ -34,7 +34,7 @@ func (s *Stack) Swap() {
 func (s *Stack) Copy(n int) error {
 	st := *s
 	size := len(st)
-	if size <= n {
+	if n < 0 || size <= n {
 		return fmt.Errorf("out of range! [%d]", n)
 	}
 	v := st[n]
