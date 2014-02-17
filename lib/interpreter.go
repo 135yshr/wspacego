@@ -84,8 +84,7 @@ func (inter *Interpreter) Run() {
 				k := stack.Pop()
 				heap.Push(k, v)
 			case "pop":
-				k := stack.Pop()
-				stack.Push(heap.Pop(k))
+				stack.Push(heap.Pop(stack.Pop()))
 			}
 		case "putc":
 			fmt.Print(string(stack.Pop()))
@@ -142,8 +141,8 @@ func (inter *Interpreter) Run() {
 					panic(err)
 				}
 			}
-		case "if stack!=0 then goto":
-			if stack.Pop() != 0 {
+		case "if stack<0 then goto":
+			if stack.Pop() < 0 {
 				p, err = inter.commands.Search(newSubCommand("label", cmd.subcmd))
 				if err != nil {
 					panic(err)
