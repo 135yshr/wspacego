@@ -1,4 +1,4 @@
-# _wspacego_[![Build Status](https://travis-ci.org/135yshr/wspacego.png?branch=master)](https://travis-ci.org/135yshr/wspacego)
+# _wspacego_
 
 
 _whitespace language interpreter_
