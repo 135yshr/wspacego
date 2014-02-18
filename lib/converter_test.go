@@ -44,7 +44,7 @@ func TestConerter(t *testing.T) {
 		})
 		Context("スタックに関連する命令の生成", func() {
 			It("スタックに１をプッシュするコマンドが作成されること", func() {
-				data := []byte{' ', '\t', '\n'}
+				data := []byte{' ', ' ', '\t', '\n'}
 				cmd, seek, err := stackManipulation(data)
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
@@ -52,7 +52,7 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 1))
 			})
 			It("スタックに2をプッシュするコマンドが作成されること", func() {
-				data := []byte{' ', '\t', ' ', '\n'}
+				data := []byte{' ', ' ', '\t', ' ', '\n'}
 				cmd, seek, err := stackManipulation(data)
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
@@ -60,12 +60,20 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 2))
 			})
 			It("スタックに4をプッシュするコマンドが作成されること", func() {
-				data := []byte{' ', '\t', ' ', ' ', '\n'}
+				data := []byte{' ', ' ', '\t', ' ', ' ', '\n'}
 				cmd, seek, err := stackManipulation(data)
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
 				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", 4))
+			})
+			It("スタックに-１をプッシュするコマンドが作成されること", func() {
+				data := []byte{' ', '\t', '\t', '\n'}
+				cmd, seek, err := stackManipulation(data)
+				Expect(err).To(NotExist)
+				Expect(seek).To(Equal, len(data))
+				Expect(cmd).To(Exist)
+				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "push", -1))
 			})
 			It("スタックをコピーするコマンドが作成されること", func() {
 				data := []byte{'\n', ' '}
@@ -91,16 +99,16 @@ func TestConerter(t *testing.T) {
 				Expect(cmd).To(Exist)
 				Expect(cmd).To(Equal, newSubCommand("stack", "remove"))
 			})
-			It("スタックのn個目の値をトップにコピーするコマンドが作成されること", func() {
-				data := []byte{'\t', ' ', '\t', '\n'}
+			It("スタックの1個目の値をトップにコピーするコマンドが作成されること", func() {
+				data := []byte{'\t', ' ', ' ', '\t', '\n'}
 				cmd, seek, err := stackManipulation(data)
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))
 				Expect(cmd).To(Exist)
 				Expect(cmd).To(Equal, newSubCommandWithParam("stack", "ncopy", 1))
 			})
-			It("スタックのn個目の値をトップに移動するコマンドが作成されること", func() {
-				data := []byte{'\t', '\n', '\t', '\n'}
+			It("スタックの1個目の値をトップに移動するコマンドが作成されること", func() {
+				data := []byte{'\t', '\n', ' ', '\t', '\n'}
 				cmd, seek, err := stackManipulation(data)
 				Expect(err).To(NotExist)
 				Expect(seek).To(Equal, len(data))

@@ -61,6 +61,11 @@ func (inter *Interpreter) Run() {
 	max := inter.commands.Len()
 	for p := 1; p <= max; p++ {
 		cmd := inter.commands.Get(p)
+		// fmt.Print(*stack)
+		// fmt.Print(" ")
+		// fmt.Println(*heap)
+		// fmt.Println(*stack)
+		// fmt.Println(cmd)
 		switch cmd.cmd {
 		case "stack":
 			switch cmd.subcmd {
