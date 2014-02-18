@@ -61,11 +61,6 @@ func (inter *Interpreter) Run() {
 	max := inter.commands.Len()
 	for p := 1; p <= max; p++ {
 		cmd := inter.commands.Get(p)
-		// fmt.Print(*stack)
-		// fmt.Print(" ")
-		// fmt.Println(*heap)
-		// fmt.Println(*stack)
-		// fmt.Println(cmd)
 		switch cmd.cmd {
 		case "stack":
 			switch cmd.subcmd {
@@ -111,8 +106,8 @@ func (inter *Interpreter) Run() {
 		case "getn":
 			num, err := getNumber()
 			if err != nil {
-				fmt.Println(err)
-				return
+				fmt.Println("Non-numeric value was entered")
+				continue
 			}
 
 			k := stack.Pop()
