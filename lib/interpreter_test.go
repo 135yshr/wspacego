@@ -36,24 +36,24 @@ func TestInterpretor(t *testing.T) {
 			})
 		})
 		Context("コマンドリストを生成", func() {
-			It("不要なデータを排除して指定したコマンドが作成されること", func() {
-				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
+			It("スタックに0x41をpushするコマンドが１つだけ作成れること", func() {
+				data := []byte{' ', ' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				sut := NewInterpreter(data)
 				err := sut.toCode()
 				Expect(err).To(NotExist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, newSubCommandWithParam("stack", "push", 0x41))
 			})
-			It("不要なデータを排除して指定したコマンドが作成されること（パート２）", func() {
-				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
+			It("スタックに0x43をpushするコマンドが１つだけ作成れること", func() {
+				data := []byte{' ', ' ', ' ', '	', ' ', ' ', ' ', ' ', '	', '	', '\n'}
 				sut := NewInterpreter(data)
 				err := sut.toCode()
 				Expect(err).To(NotExist)
 				Expect(sut.commands.Len()).To(Equal, 1)
 				Expect(sut.commands.Get(1)).To(Equal, newSubCommandWithParam("stack", "push", 0x43))
 			})
-			It("不要なデータを排除して複数のコマンドが作成されること", func() {
-				data := []byte{' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n', ' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
+			It("スタックに0x41をpushするコマンドが2つ作成れること", func() {
+				data := []byte{' ', ' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n', ' ', ' ', ' ', '	', ' ', ' ', ' ', ' ', ' ', '	', '\n'}
 				sut := NewInterpreter(data)
 				err := sut.toCode()
 				Expect(err).To(NotExist)

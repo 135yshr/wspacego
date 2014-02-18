@@ -15,6 +15,10 @@ const (
 	Lf    = '\n'
 )
 
+type input_chars []byte
+
+var ichars *input_chars
+
 type Interpreter struct {
 	origin   []byte
 	source   []byte
@@ -91,28 +95,19 @@ func (inter *Interpreter) Run() {
 		case "putn":
 			fmt.Print(stack.Pop())
 		case "getc":
-			line, err := readStdin()
+			c, err := getChar()
 			if err != nil {
 				fmt.Println(err)
 				return
 			}
 
-			bl := []byte(line)
-			for pos := len(bl); 0 < pos; pos-- {
-				k := stack.Pop()
-				heap.Push(k, int(bl[pos]))
-			}
+			k := stack.Pop()
+			heap.Push(k, int(c))
 		case "getn":
-			line, err := readStdin()
+			num, err := getNumber()
 			if err != nil {
-				fmt.Println(err)
-				return
-			}
-
-			num, err := strconv.Atoi(line)
-			if err != nil {
-				fmt.Println(err)
-				return
+				fmt.Println("Non-numeric value was entered")
+				continue
 			}
 
 			k := stack.Pop()
@@ -219,5 +214,39 @@ func readStdin() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return strings.Trim(line, "\r\n"), nil
+	return strings.Replace(line, "\r", "", -1), nil
+}
+
+func getNumber() (int, error) {
+	line, err := readStdin()
+	if err != nil {
+		return -1, err
+	}
+	line = strings.TrimRight(line, "\n")
+	return strconv.Atoi(line)
+}
+
+func getChar() (byte, error) {
+	if ichars == nil {
+		ichars = new(input_chars)
+	}
+	return ichars.getChar()
+}
+
+func (i *input_chars) getChar() (byte, error) {
+	chars := *i
+	if chars.Len() == 0 {
+		line, err := readStdin()
+		if err != nil {
+			return 0, err
+		}
+		chars = []byte(line)
+	}
+	ret := chars[0]
+	*i = chars[1:]
+	return ret, nil
+}
+
+func (i *input_chars) Len() int {
+	return len(*i)
 }

@@ -152,11 +152,14 @@ func readEndLf(data []byte) ([]byte, int) {
 
 func parseInt(data []byte) int {
 	var ret int
-	for _, b := range data {
+	for _, b := range data[1:] {
 		ret = ret << 1
 		if b == Tab {
 			ret += 1
 		}
+	}
+	if data[0] == Tab {
+		ret *= -1
 	}
 	return ret
 }
