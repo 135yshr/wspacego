@@ -60,3 +60,6 @@ Licensed under the [Apache License, Version 2.0][Apache]
 [Apache]: http://www.apache.org/licenses/LICENSE-2.0
 [MIT]: http://www.opensource.org/licenses/mit-license.php
 [GPL]: http://www.gnu.org/licenses/gpl.html
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/135yshr/wspacego/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
